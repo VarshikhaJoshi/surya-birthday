@@ -4,387 +4,4972 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SURYA.EXE // Birthday</title>
+
 <style>
 *{box-sizing:border-box}
-:root{--bg:#040912;--panel:#071321;--line:#21466f;--blue:#60a5fa;--cyan:#93c5fd;--green:#4ade80;--yellow:#facc15;--red:#f87171;--muted:#a8bdd4}
-html,body{margin:0;background:var(--bg);color:#dbeafe;font-family:"Courier New",monospace;min-height:100%;overflow-x:hidden}
-body{background-image:radial-gradient(circle at 50% 10%,rgba(37,99,235,.08),transparent 35%)}
-.screen{width:100%;max-width:760px;min-height:100vh;margin:auto;padding:26px 18px;display:flex;align-items:center;position:relative;z-index:2}
-.page{display:none;width:100%;animation:pageIn .45s ease}
-.page.active{display:block}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.shake{animation:shake .35s ease}
-@keyframes pageIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.terminal{background:rgba(5,15,27,.94);border:1px solid #2563eb;padding:26px;box-shadow:0 0 35px rgba(37,99,235,.13),inset 0 0 30px rgba(37,99,235,.025);position:relative}
-.terminal:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#3b82f6,transparent);opacity:.7}
-.small{font-size:11px;color:#b9cde2;letter-spacing:.4px}.blue{color:var(--blue)}.green{color:var(--green)}.yellow{color:var(--yellow)}.red{color:var(--red)}
-h1{font-size:38px;line-height:1.02;margin:16px 0}h2{font-size:21px;color:var(--blue);margin:14px 0}p{line-height:1.7}
-button{width:100%;padding:14px 12px;margin-top:13px;background:#081a31;border:1px solid #2563eb;color:var(--cyan);font:inherit;cursor:pointer;transition:.2s}
-button:hover{background:#12315a;color:#fff;box-shadow:0 0 15px rgba(37,99,235,.22);transform:translateY(-1px)}
-button:disabled{cursor:not-allowed}
-.card{border:1px solid var(--line);background:#071421;padding:15px;margin:12px 0;line-height:1.75}
-.line{border-bottom:1px dashed var(--line);padding:8px 0}
-.stat{display:flex;justify-content:space-between;gap:15px;border-bottom:1px dashed var(--line);padding:9px 0}
-.birthday-record{margin:22px 0;padding:20px 18px;line-height:2.05}.birthday-record + .birthday-record{margin-top:28px}.date{display:inline-block;margin:7px 0 4px}.file{border:1px solid var(--line);background:#071421;padding:14px;margin:9px 0;cursor:pointer;transition:.2s}
-.file:hover{border-color:#60a5fa;transform:translateX(3px)}
-.hidden{display:none!important}
-.bar{height:10px;background:#0b1625;border:1px solid #163253;margin:16px 0;overflow:hidden}
-.bar span{display:block;height:100%;width:0;background:#3b82f6;transition:1.1s}
-.interactive{cursor:pointer;transition:.2s}.interactive:hover{border-color:#60a5fa;transform:translateY(-2px);box-shadow:0 0 14px rgba(37,99,235,.14)}.selected{border-color:#60a5fa!important;box-shadow:0 0 18px rgba(37,99,235,.16)}.micro{font-size:11px;color:#c7d8ea;margin-top:8px;line-height:1.5}.reveal.show,.scan-note,.card .green,.card .yellow,.card .red{font-weight:700}.reveal.show,.scan-note{color:#dbeafe;font-size:13px;line-height:1.7}.status-note{font-weight:700;color:#dbeafe;font-size:13px;line-height:1.7}.flowers{grid-template-columns:repeat(3,1fr)}.reveal{opacity:0;max-height:0;overflow:hidden;transition:.45s ease}.reveal.show{opacity:1;max-height:180px}.choiceGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.choiceGrid .interactive{border:1px solid var(--line);padding:20px;background:#071421;text-align:center;line-height:1.8}.holdBtn{position:relative;overflow:hidden}.holdBtn .holdFill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(59,130,246,.25);pointer-events:none}.holdBtn span{position:relative;z-index:2}.photo{height:145px;border:1px dashed #32608f;display:flex;align-items:center;justify-content:center;color:var(--muted);margin:10px 0;background:#06101c}
-.big{font-size:48px;color:var(--blue);line-height:1.02}.center{text-align:center}
-.cake{font-size:74px;animation:bob 1.3s infinite}@keyframes bob{50%{transform:translateY(-8px)}}
-.paper{position:fixed;top:-20px;width:5px;height:8px;background:#60a5fa;opacity:.55;z-index:1;animation:fall linear infinite;pointer-events:none}
-@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
-@keyframes paperBurst{0%{opacity:1;transform:translate(0,0) rotate(0deg)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(720deg)}}
-.holdBtn{user-select:none;-webkit-user-select:none;touch-action:none}.swipeMemoryBox{margin-top:16px}.swipeInstruction{font-size:12px;line-height:1.6;margin-bottom:8px;color:#dbeafe}.swipeWrap{position:relative;height:120px;overflow:hidden;border:1px solid var(--line);background:#071421;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}.swipeCover{position:absolute;inset:0;background:#0a1c32;border-right:2px solid #60a5fa;display:flex;align-items:center;justify-content:center;gap:14px;color:#dbeafe;z-index:2;transform:translateX(0);transition:transform .08s linear;box-shadow:10px 0 25px rgba(37,99,235,.12)}.swipeCover b{font-size:24px;color:#60a5fa}.swipeReveal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:15px}.memoryPieces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.memoryPiece{margin:0;padding:11px 7px;font-size:12px}.memoryPiece.done{border-color:#4ade80;color:#4ade80}.commandCard input{font-size:16px}.commandCard{border-color:#315f91}
-.quarantine{height:70px;border:1px dashed #4ade80;display:flex;align-items:center;justify-content:center;color:#86efac;margin-top:12px;transition:.2s}.quarantine.dropReady{background:rgba(74,222,128,.06);border-color:#86efac;transform:scale(1.01)}.bugList{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.bugItem{padding:10px 12px;border:1px solid #365d83;background:#081a31;color:#dbeafe;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:.2s}.bugItem:hover{border-color:#60a5fa;transform:translateY(-1px)}.bugItem.dragging{opacity:.45}.bugGhost{position:fixed;z-index:50;pointer-events:none;opacity:.9;background:#081a31;border:1px solid #60a5fa;color:#dbeafe;padding:10px 12px;box-shadow:0 0 20px rgba(37,99,235,.3);transform:scale(1.04)}.holdAction{position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}.holdAction .holdFill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(59,130,246,.22);pointer-events:none}.holdAction span{position:relative;z-index:2}.burst-paper{will-change:transform,opacity}.popup{position:fixed;inset:0;background:rgba(0,0,0,.68);display:flex;align-items:center;justify-content:center;padding:20px;z-index:20;animation:popupFade .55s ease-out}
-.popupBox{width:min(430px,100%);background:#071421;border:1px solid #3b82f6;padding:24px;box-shadow:0 0 35px rgba(37,99,235,.3);animation:popupBoxIn .75s cubic-bezier(.2,.8,.2,1) both}
-@keyframes popupFade{from{opacity:0}to{opacity:1}}
-@keyframes popupBoxIn{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:none}}
 
-/* cute interaction layer */
-.mascot{width:88px;height:88px;margin:16px auto 10px;position:relative;animation:mascotFloat 2.2s ease-in-out infinite}
-.mascot .head{width:62px;height:54px;border:2px solid #60a5fa;border-radius:48% 48% 45% 45%;background:#0a1c32;position:absolute;left:13px;top:17px}
-.mascot .ear{width:15px;height:22px;border:2px solid #60a5fa;border-radius:50%;position:absolute;top:31px;background:#071421}.mascot .ear.l{left:3px}.mascot .ear.r{right:3px}
-.mascot .eye{width:7px;height:7px;background:#dbeafe;border-radius:50%;position:absolute;top:37px}.mascot .eye.l{left:28px}.mascot .eye.r{right:28px}
-.mascot .mouth{width:18px;height:8px;border-bottom:2px solid #4ade80;border-radius:0 0 18px 18px;position:absolute;left:22px;top:49px}
-.mascot.worried .mouth{border-bottom:0;border-top:2px solid #facc15;top:54px;border-radius:18px 18px 0 0}
-@keyframes mascotFloat{50%{transform:translateY(-5px)}}
-.birthday-stage{margin-top:18px}.candleStage{display:none;text-align:center;padding:20px 10px}.candle{font-size:76px;cursor:pointer;user-select:none;touch-action:none;position:relative;display:inline-block}.flame{display:block;position:absolute;top:-4px;left:50%;transform:translateX(-50%);font-size:34px;animation:flicker .35s infinite alternate}.candle.off .flame{display:none}.candle.off{filter:grayscale(.6)}
-@keyframes flicker{from{transform:translateX(-50%) scale(.9) rotate(-3deg)}to{transform:translateX(-50%) scale(1.08) rotate(3deg)}}
-.darkTransition{position:fixed;inset:0;background:#000;z-index:80;opacity:0;pointer-events:none;transition:opacity 1.5s ease}.darkTransition.show{opacity:1}.darkText{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#dbeafe;font:14px "Courier New",monospace;opacity:0;transition:opacity .8s}.darkText.show{opacity:1}
-.bouquetStage{display:none;margin-top:18px;text-align:center}.flowers{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:16px 0}.flower{min-height:72px;padding:8px 4px;border:1px solid var(--line);background:#071421;color:#dbeafe;font-size:22px;cursor:pointer;transition:.25s}.flower span{display:block;font-size:9px;color:#c7d8ea;margin-top:6px}.flower.open{border-color:#4ade80;transform:translateY(-4px);box-shadow:0 0 14px rgba(74,222,128,.16)}
-@media(max-width:430px){.flowers{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:430px){.screen{padding:16px;transform:translateY(-45px)}.terminal{padding:19px}h1{font-size:31px}.big{font-size:41px}}
+:root{
+  --bg:#040912;
+  --panel:#071321;
+  --line:#21466f;
+  --blue:#60a5fa;
+  --cyan:#93c5fd;
+  --green:#4ade80;
+  --yellow:#facc15;
+  --red:#f87171;
+  --muted:#a8bdd4
+}
 
-.leverScene{position:relative;display:flex;justify-content:center;gap:42px;margin:24px auto 14px;min-height:150px;align-items:flex-end}.leverUnit{text-align:center}.leverLabel{font-weight:700;color:#dbeafe;margin-bottom:8px}.lever{position:relative;width:62px;height:104px;background:#081a2d;border:1px solid #315f91;border-radius:10px;cursor:pointer;padding:0;touch-action:manipulation}.lever:before{content:"";position:absolute;left:50%;top:12px;bottom:12px;width:6px;transform:translateX(-50%);background:#315f91;border-radius:6px}.leverHandle{position:absolute;left:50%;top:18px;width:28px;height:28px;transform:translateX(-50%);border-radius:50%;background:#60a5fa;box-shadow:0 0 14px rgba(96,165,250,.25);transition:transform .35s ease}.lever.pulled .leverHandle{transform:translate(-50%,56px)}.lever.locked{opacity:.6}.securityCat{position:absolute;bottom:2px;left:50%;transform:translateX(-50%) translateY(20px);font-size:54px;opacity:0;pointer-events:none;transition:opacity .25s,transform .35s;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}.securityCat.show{opacity:1;transform:translateX(-50%) translateY(0)}.securityCat.angry{animation:catAngry .45s ease-in-out 2}.securityCat.shy{animation:catShy 1.2s ease both}@keyframes catAngry{0%,100%{transform:translateX(-50%) rotate(0)}25%{transform:translateX(-56%) rotate(-8deg)}75%{transform:translateX(-44%) rotate(8deg)}}@keyframes catShy{0%{transform:translateX(-50%) scale(1)}40%{transform:translateX(-50%) scale(.9) rotate(-4deg)}100%{transform:translateX(90px) scale(.65);opacity:0}}
+html,body{
+  margin:0;
+  background:var(--bg);
+  color:#dbeafe;
+  font-family:"Courier New",monospace;
+  min-height:100%;
+  overflow-x:hidden
+}
 
-.popupTitle{font-size:24px;font-weight:500}.popupLarge{font-size:22px;line-height:1.65}
+body{
+  background-image:radial-gradient(
+    circle at 50% 10%,
+    rgba(37,99,235,.08),
+    transparent 35%
+  )
+}
+
+.screen{
+  width:100%;
+  max-width:760px;
+  min-height:100vh;
+  margin:auto;
+  padding:26px 18px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:2
+}
+
+.page{
+  display:none;
+  width:100%;
+  animation:pageIn .45s ease
+}
+
+.page.active{
+  display:block
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  75%{transform:translateX(5px)}
+}
+
+.shake{
+  animation:shake .35s ease
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(18px)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+.terminal{
+  background:rgba(5,15,27,.94);
+  border:1px solid #2563eb;
+  padding:26px;
+  box-shadow:
+    0 0 35px rgba(37,99,235,.13),
+    inset 0 0 30px rgba(37,99,235,.025);
+  position:relative
+}
+
+.terminal:before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:2px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #3b82f6,
+    transparent
+  );
+  opacity:.7
+}
+
+.small{
+  font-size:11px;
+  color:#b9cde2;
+  letter-spacing:.4px
+}
+
+.blue{color:var(--blue)}
+.green{color:var(--green)}
+.yellow{color:var(--yellow)}
+.red{color:var(--red)}
+
+h1{
+  font-size:38px;
+  line-height:1.02;
+  margin:16px 0
+}
+
+h2{
+  font-size:21px;
+  color:var(--blue);
+  margin:14px 0
+}
+
+p{
+  line-height:1.7
+}
+
+button{
+  width:100%;
+  padding:14px 12px;
+  margin-top:13px;
+  background:#081a31;
+  border:1px solid #2563eb;
+  color:var(--cyan);
+  font:inherit;
+  cursor:pointer;
+  transition:.2s
+}
+
+button:hover{
+  background:#12315a;
+  color:#fff;
+  box-shadow:0 0 15px rgba(37,99,235,.22);
+  transform:translateY(-1px)
+}
+
+button:disabled{
+  cursor:not-allowed
+}
+
+.card{
+  border:1px solid var(--line);
+  background:#071421;
+  padding:15px;
+  margin:12px 0;
+  line-height:1.75
+}
+
+.line{
+  border-bottom:1px dashed var(--line);
+  padding:8px 0
+}
+
+.stat{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px dashed var(--line);
+  padding:9px 0
+}
+
+.birthday-record{
+  margin:22px 0;
+  padding:20px 18px;
+  line-height:2.05
+}
+
+.birthday-record + .birthday-record{
+  margin-top:28px
+}
+
+.date{
+  display:inline-block;
+  margin:7px 0 4px
+}
+
+.file{
+  border:1px solid var(--line);
+  background:#071421;
+  padding:14px;
+  margin:9px 0;
+  cursor:pointer;
+  transition:.2s
+}
+
+.file:hover{
+  border-color:#60a5fa;
+  transform:translateX(3px)
+}
+
+.hidden{
+  display:none!important
+}
+
+.bar{
+  height:10px;
+  background:#0b1625;
+  border:1px solid #163253;
+  margin:16px 0;
+  overflow:hidden
+}
+
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:#3b82f6;
+  transition:1.1s
+}
+
+.interactive{
+  cursor:pointer;
+  transition:.2s
+}
+
+.interactive:hover{
+  border-color:#60a5fa;
+  transform:translateY(-2px);
+  box-shadow:0 0 14px rgba(37,99,235,.14)
+}
+
+.selected{
+  border-color:#60a5fa!important;
+  box-shadow:0 0 18px rgba(37,99,235,.16)
+}
+
+.micro{
+  font-size:11px;
+  color:#c7d8ea;
+  margin-top:8px;
+  line-height:1.5
+}
+
+.reveal.show,
+.scan-note,
+.card .green,
+.card .yellow,
+.card .red{
+  font-weight:700
+}
+
+.reveal.show,
+.scan-note{
+  color:#dbeafe;
+  font-size:13px;
+  line-height:1.7
+}
+
+.status-note{
+  font-weight:700;
+  color:#dbeafe;
+  font-size:13px;
+  line-height:1.7
+}
+
+.flowers{
+  grid-template-columns:repeat(3,1fr)
+}
+
+.reveal{
+  opacity:0;
+  max-height:0;
+  overflow:hidden;
+  transition:.45s ease
+}
+
+.reveal.show{
+  opacity:1;
+  max-height:180px
+}
+
+.choiceGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px
+}
+
+.choiceGrid .interactive{
+  border:1px solid var(--line);
+  padding:20px;
+  background:#071421;
+  text-align:center;
+  line-height:1.8
+}
+
+.holdBtn{
+  position:relative;
+  overflow:hidden
+}
+
+.holdBtn .holdFill{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:0;
+  background:rgba(59,130,246,.25);
+  pointer-events:none
+}
+
+.holdBtn span{
+  position:relative;
+  z-index:2
+}
+
+/* MEMORY PHOTOS */
+
+.photo{
+  width:100%;
+  height:auto;
+  max-height:430px;
+  object-fit:cover;
+  display:block;
+  border:1px solid #32608f;
+  margin:10px 0;
+  background:#06101c;
+  border-radius:4px
+}
+
+.memoryFigure{
+  margin:0
+}
+
+.memoryFigure figcaption{
+  padding:8px 2px 2px;
+  line-height:1.65
+}
+
+.memoryFigure figcaption strong{
+  display:block;
+  color:#60a5fa;
+  font-size:14px;
+  letter-spacing:.3px
+}
+
+.memoryFigure figcaption span{
+  display:block;
+  color:#dbeafe;
+  font-size:12px;
+  margin-top:3px
+}
+
+.big{
+  font-size:48px;
+  color:var(--blue);
+  line-height:1.02
+}
+
+.center{
+  text-align:center
+}
+
+.cake{
+  font-size:74px;
+  animation:bob 1.3s infinite
+}
+
+@keyframes bob{
+  50%{transform:translateY(-8px)}
+}
+
+.paper{
+  position:fixed;
+  top:-20px;
+  width:5px;
+  height:8px;
+  background:#60a5fa;
+  opacity:.55;
+  z-index:1;
+  animation:fall linear infinite;
+  pointer-events:none
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(360deg)
+  }
+}
+
+@keyframes paperBurst{
+  0%{
+    opacity:1;
+    transform:translate(0,0) rotate(0deg)
+  }
+  100%{
+    opacity:0;
+    transform:translate(var(--dx),var(--dy)) rotate(720deg)
+  }
+}
+
+.holdBtn{
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none
+}
+
+.memoryPieces{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px
+}
+
+.memoryPiece{
+  margin:0;
+  padding:11px 7px;
+  font-size:12px
+}
+
+.memoryPiece.done{
+  border-color:#4ade80;
+  color:#4ade80
+}
+
+.commandCard input{
+  font-size:16px
+}
+
+.commandCard{
+  border-color:#315f91
+}
+
+/* BUG QUARANTINE */
+
+.quarantine{
+  height:70px;
+  border:1px dashed #4ade80;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#86efac;
+  margin-top:12px;
+  transition:.2s
+}
+
+.quarantine.dropReady{
+  background:rgba(74,222,128,.06);
+  border-color:#86efac;
+  transform:scale(1.01)
+}
+
+.bugList{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px
+}
+
+.bugItem{
+  padding:10px 12px;
+  border:1px solid #365d83;
+  background:#081a31;
+  color:#dbeafe;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:.2s
+}
+
+.bugItem:hover{
+  border-color:#60a5fa;
+  transform:translateY(-1px)
+}
+
+.bugItem.dragging{
+  opacity:.45
+}
+
+.bugGhost{
+  position:fixed;
+  z-index:50;
+  pointer-events:none;
+  opacity:.9;
+  background:#081a31;
+  border:1px solid #60a5fa;
+  color:#dbeafe;
+  padding:10px 12px;
+  box-shadow:0 0 20px rgba(37,99,235,.3);
+  transform:scale(1.04)
+}
+
+.holdAction{
+  position:relative;
+  overflow:hidden;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none
+}
+
+.holdAction .holdFill{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:0;
+  background:rgba(59,130,246,.22);
+  pointer-events:none
+}
+
+.holdAction span{
+  position:relative;
+  z-index:2
+}
+
+.burst-paper{
+  will-change:transform,opacity
+}
+
+/* POPUP */
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.68);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:20;
+  animation:popupFade .55s ease-out
+}
+
+.popupBox{
+  width:min(430px,100%);
+  background:#071421;
+  border:1px solid #3b82f6;
+  padding:24px;
+  box-shadow:0 0 35px rgba(37,99,235,.3);
+  animation:popupBoxIn .75s cubic-bezier(.2,.8,.2,1) both
+}
+
+@keyframes popupFade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes popupBoxIn{
+  from{
+    opacity:0;
+    transform:translateY(22px) scale(.96)
+  }
+  to{
+    opacity:1;
+    transform:none
+  }
+}
+
+/* CAT */
+
+.mascot{
+  width:88px;
+  height:88px;
+  margin:16px auto 10px;
+  position:relative;
+  animation:mascotFloat 2.2s ease-in-out infinite
+}
+
+.mascot .head{
+  width:62px;
+  height:54px;
+  border:2px solid #60a5fa;
+  border-radius:48% 48% 45% 45%;
+  background:#0a1c32;
+  position:absolute;
+  left:13px;
+  top:17px
+}
+
+.mascot .ear{
+  width:15px;
+  height:22px;
+  border:2px solid #60a5fa;
+  border-radius:50%;
+  position:absolute;
+  top:31px;
+  background:#071421
+}
+
+.mascot .ear.l{left:3px}
+.mascot .ear.r{right:3px}
+
+.mascot .eye{
+  width:7px;
+  height:7px;
+  background:#dbeafe;
+  border-radius:50%;
+  position:absolute;
+  top:37px
+}
+
+.mascot .eye.l{left:28px}
+.mascot .eye.r{right:28px}
+
+.mascot .mouth{
+  width:18px;
+  height:8px;
+  border-bottom:2px solid #4ade80;
+  border-radius:0 0 18px 18px;
+  position:absolute;
+  left:22px;
+  top:49px
+}
+
+.mascot.worried .mouth{
+  border-bottom:0;
+  border-top:2px solid #facc15;
+  top:54px;
+  border-radius:18px 18px 0 0
+}
+
+@keyframes mascotFloat{
+  50%{transform:translateY(-5px)}
+}
+
+/* CANDLE */
+
+.birthday-stage{
+  margin-top:18px
+}
+
+.candleStage{
+  display:none;
+  text-align:center;
+  padding:20px 10px
+}
+
+.candle{
+  font-size:76px;
+  cursor:pointer;
+  user-select:none;
+  touch-action:none;
+  position:relative;
+  display:inline-block
+}
+
+.flame{
+  display:block;
+  position:absolute;
+  top:-4px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:34px;
+  animation:flicker .35s infinite alternate
+}
+
+.candle.off .flame{
+  display:none
+}
+
+.candle.off{
+  filter:grayscale(.6)
+}
+
+@keyframes flicker{
+  from{
+    transform:translateX(-50%) scale(.9) rotate(-3deg)
+  }
+  to{
+    transform:translateX(-50%) scale(1.08) rotate(3deg)
+  }
+}
+
+.darkTransition{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:80;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.5s ease
+}
+
+.darkTransition.show{
+  opacity:1
+}
+
+.darkText{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#dbeafe;
+  font:14px "Courier New",monospace;
+  opacity:0;
+  transition:opacity .8s
+}
+
+.darkText.show{
+  opacity:1
+}
+
+/* BOUQUET */
+
+.bouquetStage{
+  display:none;
+  margin-top:18px;
+  text-align:center
+}
+
+.flowers{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:16px 0
+}
+
+.flower{
+  min-height:72px;
+  padding:8px 4px;
+  border:1px solid var(--line);
+  background:#071421;
+  color:#dbeafe;
+  font-size:22px;
+  cursor:pointer;
+  transition:.25s
+}
+
+.flower span{
+  display:block;
+  font-size:9px;
+  color:#c7d8ea;
+  margin-top:6px
+}
+
+.flower.open{
+  border-color:#4ade80;
+  transform:translateY(-4px);
+  box-shadow:0 0 14px rgba(74,222,128,.16)
+}
+
+/* LEVERS */
+
+.leverScene{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  gap:42px;
+  margin:24px auto 14px;
+  min-height:150px;
+  align-items:flex-end
+}
+
+.leverUnit{
+  text-align:center
+}
+
+.leverLabel{
+  font-weight:700;
+  color:#dbeafe;
+  margin-bottom:8px
+}
+
+.lever{
+  position:relative;
+  width:62px;
+  height:104px;
+  background:#081a2d;
+  border:1px solid #315f91;
+  border-radius:10px;
+  cursor:pointer;
+  padding:0;
+  touch-action:manipulation
+}
+
+.lever:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:12px;
+  bottom:12px;
+  width:6px;
+  transform:translateX(-50%);
+  background:#315f91;
+  border-radius:6px
+}
+
+.leverHandle{
+  position:absolute;
+  left:50%;
+  top:18px;
+  width:28px;
+  height:28px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:#60a5fa;
+  box-shadow:0 0 14px rgba(96,165,250,.25);
+  transition:transform .35s ease
+}
+
+.lever.pulled .leverHandle{
+  transform:translate(-50%,56px)
+}
+
+.lever.locked{
+  opacity:.6
+}
+
+.securityCat{
+  position:absolute;
+  bottom:2px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  font-size:54px;
+  opacity:0;
+  pointer-events:none;
+  transition:
+    opacity .25s,
+    transform .35s;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))
+}
+
+.securityCat.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0)
+}
+
+.securityCat.angry{
+  animation:catAngry .45s ease-in-out 2
+}
+
+.securityCat.shy{
+  animation:catShy 1.2s ease both
+}
+
+@keyframes catAngry{
+  0%,100%{transform:translateX(-50%) rotate(0)}
+  25%{transform:translateX(-56%) rotate(-8deg)}
+  75%{transform:translateX(-44%) rotate(8deg)}
+}
+
+@keyframes catShy{
+  0%{
+    transform:translateX(-50%) scale(1)
+  }
+  40%{
+    transform:translateX(-50%) scale(.9) rotate(-4deg)
+  }
+  100%{
+    transform:translateX(90px) scale(.65);
+    opacity:0
+  }
+}
+
+.popupTitle{
+  font-size:24px;
+  font-weight:500
+}
+
+.popupLarge{
+  font-size:22px;
+  line-height:1.65
+}
+
+@media(max-width:430px){
+  .flowers{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+  .screen{
+    padding:16px;
+    transform:translateY(-45px)
+  }
+
+  .terminal{
+    padding:19px
+  }
+
+  h1{
+    font-size:31px
+  }
+
+  .big{
+    font-size:41px
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div id="papers"></div>
+
 <div class="screen">
 
-<section class="page active" id="p0"><div class="terminal">
+<!-- ========================= -->
+<!-- ACT 1 -->
+<!-- ========================= -->
+
+<section class="page active" id="p0">
+<div class="terminal">
+
 <div class="small">SYSTEM ERROR // 404</div>
-<h1>BIRTHDAY BOY<br>NOT FOUND</h1>
-<p>The birthday system cannot locate the requested birthday boy.</p>
-<p>Requested user: <span class="blue">SURYA</span><br>Status: <span class="red">MISSING</span></p>
-<p class="small">Emergency birthday search available.</p>
-<button onclick="go(1)">SEARCH FOR SURYA →</button>
-</div></section>
 
-<section class="page" id="p1"><div class="terminal">
-<div class="small">BIRTHDAY SEARCH // ACTIVE</div><h2>LOCATING THE BIRTHDAY BOY...</h2>
-<div class="card"><label class="small" for="suryaSearch">SEARCH USER</label><div style="display:flex;gap:8px;margin-top:8px"><input id="suryaSearch" autocomplete="off" placeholder="ENTER YOUR NAME" onkeydown="if(event.key==='Enter')runRealSearch()" style="flex:1;background:#030b15;border:1px solid #21466f;color:#dbeafe;padding:13px;font:inherit;min-width:0"><button style="width:auto;margin-top:0" onclick="runRealSearch()">SEARCH</button></div><div id="searchHint" class="micro"></div></div>
-<div id="searchLines">
-<div class="line hidden" id="s1">&gt; connecting to birthday database...</div>
-<div class="line hidden" id="s2">&gt; scanning memories...</div>
-<div class="line hidden" id="s3">&gt; checking personal records...</div>
-<div class="line hidden" id="s4">&gt; searching Varshi's favourites...</div>
+<h1>
+BIRTHDAY BOY<br>
+NOT FOUND
+</h1>
+
+<p>
+The birthday system cannot locate the requested birthday boy.
+</p>
+
+<p>
+Requested user:
+<span class="blue">SURYA</span>
+<br>
+Status:
+<span class="red">MISSING</span>
+</p>
+
+<p class="small">
+Emergency birthday search available.
+</p>
+
+<button onclick="go(1)">
+SEARCH FOR SURYA →
+</button>
+
 </div>
-</div></section>
+</section>
 
-<section class="page" id="p2"><div class="terminal">
-<div class="small">DATABASE // BIRTHDAY CONFLICT</div><h2>BIRTHDAY CONFLICT FOUND</h2>
-<div class="card"><strong>RECORD #01</strong><br><br><span class="yellow">22 AUG 2000</span><br><span class="micro">SUSPICIOUS</span></div>
-<div class="card"><strong>RECORD #02</strong><br><br><span class="green">22 OCT 1999</span><br><span class="micro">ORIGINAL RECORD FOUND ✓</span></div>
-<button onclick="go(3)">CONTINUE →</button>
-</div></section>
 
-<section class="page" id="p3"><div class="terminal">
-<div class="small">SEARCH COMPLETE</div>
-<h1 class="green">SURYA FOUND ✓</h1>
-<p>Original birthday record restored.</p>
+<section class="page" id="p1">
+<div class="terminal">
+
+<div class="small">
+BIRTHDAY SEARCH // ACTIVE
+</div>
+
+<h2>
+LOCATING THE BIRTHDAY BOY...
+</h2>
+
 <div class="card">
-<div class="stat"><span>BIRTHDAY</span><span class="blue">22 OCTOBER 1999</span></div>
-<div class="stat"><span>AGE</span><span class="blue">27</span></div>
-<div class="stat"><span>STATUS</span><span class="green">BIRTHDAY INITIALIZED</span></div>
+
+<label class="small" for="suryaSearch">
+SEARCH USER
+</label>
+
+<div style="display:flex;gap:8px;margin-top:8px">
+
+<input
+id="suryaSearch"
+autocomplete="off"
+placeholder="ENTER YOUR NAME"
+onkeydown="if(event.key==='Enter')runRealSearch()"
+style="
+flex:1;
+background:#030b15;
+border:1px solid #21466f;
+color:#dbeafe;
+padding:13px;
+font:inherit;
+min-width:0
+">
+
+<button
+style="width:auto;margin-top:0"
+onclick="runRealSearch()">
+SEARCH
+</button>
+
 </div>
+
+<div id="searchHint" class="micro"></div>
+
+</div>
+
+<div id="searchLines">
+
+<div class="line hidden" id="s1">
+&gt; connecting to birthday database...
+</div>
+
+<div class="line hidden" id="s2">
+&gt; scanning memories...
+</div>
+
+<div class="line hidden" id="s3">
+&gt; checking personal records...
+</div>
+
+<div class="line hidden" id="s4">
+&gt; searching Varshi's favourites...
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- BIRTHDAY CONFLICT -->
+
+<section class="page" id="p2">
+<div class="terminal">
+
+<div class="small">
+DATABASE // BIRTHDAY CONFLICT
+</div>
+
+<h2>
+BIRTHDAY CONFLICT FOUND
+</h2>
+
+<div class="card">
+
+<strong>RECORD #01</strong>
+<br><br>
+
+<span class="yellow">
+22 AUG 2000
+</span>
+
+<br>
+
+<span class="micro">
+SUSPICIOUS
+</span>
+
+</div>
+
+<div class="card">
+
+<strong>RECORD #02</strong>
+<br><br>
+
+<span class="green">
+22 OCT 1999
+</span>
+
+<br>
+
+<span class="micro">
+ORIGINAL RECORD FOUND ✓
+</span>
+
+</div>
+
+<button onclick="go(3)">
+CONTINUE →
+</button>
+
+</div>
+</section>
+
+
+<!-- SURYA FOUND -->
+
+<section class="page" id="p3">
+<div class="terminal">
+
+<div class="small">
+SEARCH COMPLETE
+</div>
+
+<h1 class="green">
+SURYA FOUND ✓
+</h1>
+
+<p>
+Original birthday record restored.
+</p>
+
+<div class="card">
+
+<div class="stat">
+<span>BIRTHDAY</span>
+<span class="blue">22 OCTOBER 1999</span>
+</div>
+
+<div class="stat">
+<span>AGE</span>
+<span class="blue">27</span>
+</div>
+
+<div class="stat">
+<span>STATUS</span>
+<span class="green">BIRTHDAY INITIALIZED</span>
+</div>
+
+</div>
+
 
 <div class="card commandCard">
-<strong>&gt; BIRTHDAY COMMAND PROMPT</strong>
-<div class="micro">Type the command to initialize the birthday.</div>
-<input id="birthdayCommand" autocomplete="off" placeholder="./birthday --run" onkeydown="if(event.key==='Enter')runBirthdayCommand()" style="width:100%;margin-top:10px;background:#030b15;border:1px solid #21466f;color:#dbeafe;padding:12px;font:inherit">
+
+<strong>
+&gt; BIRTHDAY COMMAND PROMPT
+</strong>
+
+<div class="micro">
+Type the command to initialize the birthday.
+</div>
+
+<input
+id="birthdayCommand"
+autocomplete="off"
+placeholder="./birthday --run"
+onkeydown="if(event.key==='Enter')runBirthdayCommand()"
+style="
+width:100%;
+margin-top:10px;
+background:#030b15;
+border:1px solid #21466f;
+color:#dbeafe;
+padding:12px;
+font:inherit
+">
+
 <div id="birthdayCommandResult" class="micro"></div>
-</div>
-<button id="birthdayContinue" class="hidden" onclick="go(4)">CONTINUE TO SURYA.EXE →</button>
-</div></section>
 
-<section class="page" id="p4"><div class="terminal">
-<div class="small">SECURITY // LEVEL 01</div><h2>SECURITY QUESTION</h2>
-<p><strong>IS SURYA SHORT?</strong></p>
-<p class="micro">Choose your answer using the lever. The system may have opinions. 🐱</p>
+</div>
+
+<button
+id="birthdayContinue"
+class="hidden"
+onclick="go(4)">
+CONTINUE TO SURYA.EXE →
+</button>
+
+</div>
+</section>
+
+
+<!-- SECURITY -->
+
+<section class="page" id="p4">
+<div class="terminal">
+
+<div class="small">
+SECURITY // LEVEL 01
+</div>
+
+<h2>
+SECURITY QUESTION
+</h2>
+
+<p>
+<strong>IS SURYA SHORT?</strong>
+</p>
+
+<p class="micro">
+Choose your answer using the lever.
+The system may have opinions. 🐱
+</p>
+
 <div class="leverScene">
-  <div class="leverUnit"><div class="leverLabel">YES</div><button id="yesLever" class="lever" type="button" onclick="securityYes()"><span class="leverHandle"></span></button></div>
-  <div class="leverUnit"><div class="leverLabel">NO</div><button id="noLever" class="lever" type="button" onclick="securityNo()"><span class="leverHandle"></span></button></div>
-  <div id="securityCat" class="securityCat" aria-live="polite">🐱</div>
+
+<div class="leverUnit">
+
+<div class="leverLabel">
+YES
 </div>
-<div id="attemptText" class="small">NO ATTEMPTS YET</div>
+
+<button
+id="yesLever"
+class="lever"
+type="button"
+onclick="securityYes()">
+
+<span class="leverHandle"></span>
+
+</button>
+
+</div>
+
+
+<div class="leverUnit">
+
+<div class="leverLabel">
+NO
+</div>
+
+<button
+id="noLever"
+class="lever"
+type="button"
+onclick="securityNo()">
+
+<span class="leverHandle"></span>
+
+</button>
+
+</div>
+
+<div
+id="securityCat"
+class="securityCat"
+aria-live="polite">
+🐱
+</div>
+
+</div>
+
+<div id="attemptText" class="small">
+NO ATTEMPTS YET
+</div>
+
 <p id="securityMsg"></p>
-</div></section>
 
-<section class="page" id="p5"><div class="terminal" onclick="profilePageTap(event)">
-<div class="small">USER PROFILE // SURYA.EXE</div><h1>SURYA.EXE</h1>
-<div class="card interactive" onclick="inspectProfile(this)">
-<div class="stat"><span>NAME</span><span class="blue">SURYA</span></div>
-<div class="stat"><span>ROLE</span><span class="blue">GOOD HUMAN</span></div>
-<div class="stat"><span>TYPE</span><span class="blue">PRECIOUS FELLOW</span></div>
-<div class="stat"><span>STATUS</span><span class="green">BIRTHDAY MODE</span></div>
-<div class="stat"><span>KNOWN TRAIT</span><span>CURIOUS MIND</span></div>
-<div id="profileInspect" class="micro reveal"></div>
 </div>
-<div class="card interactive" onclick="toggleSecret(this)" data-secret="PROFILE NOTE: Somehow this human keeps getting better with every software update. ❤️"><strong>▸ TAP TO INSPECT PROFILE LOG</strong><div class="micro reveal">Tap to inspect.</div></div><button id="systemScanBtn" class="hidden" onclick="go(6)">RUN SURYA SYSTEM SCAN →</button>
-</div></section>
+</section>
 
-<section class="page" id="p6"><div class="terminal">
-<div class="small">DIAGNOSTICS // SURYA</div><h2>SURYA SYSTEM SCAN</h2><p class="micro blue" style="font-weight:800">TAP ANY STAT TO INSPECT →</p>
+
+<!-- SURYA PROFILE -->
+
+<section
+class="page"
+id="p5"
+onclick="profilePageTap(event)">
+
+<div class="terminal">
+
+<div class="small">
+USER PROFILE // SURYA.EXE
+</div>
+
+<h1>
+SURYA.EXE
+</h1>
+
+<div
+class="card interactive"
+onclick="inspectProfile(this)">
+
+<div class="stat">
+<span>NAME</span>
+<span class="blue">SURYA</span>
+</div>
+
+<div class="stat">
+<span>ROLE</span>
+<span class="blue">GOOD HUMAN</span>
+</div>
+
+<div class="stat">
+<span>TYPE</span>
+<span class="blue">PRECIOUS FELLOW</span>
+</div>
+
+<div class="stat">
+<span>STATUS</span>
+<span class="green">BIRTHDAY MODE</span>
+</div>
+
+<div class="stat">
+<span>KNOWN TRAIT</span>
+<span>CURIOUS MIND</span>
+</div>
+
+<div
+id="profileInspect"
+class="micro reveal">
+</div>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="toggleSecret(this)"
+data-secret="PROFILE NOTE: Somehow this human keeps getting better with every software update. ❤️">
+
+<strong>
+▸ TAP TO INSPECT PROFILE LOG
+</strong>
+
+<div class="micro reveal">
+Tap to inspect.
+</div>
+
+</div>
+
+
+<button
+id="systemScanBtn"
+class="hidden"
+onclick="go(6)">
+RUN SURYA SYSTEM SCAN →
+</button>
+
+</div>
+</section>
+
+
+<!-- SYSTEM SCAN -->
+
+<section class="page" id="p6">
+<div class="terminal">
+
+<div class="small">
+DIAGNOSTICS // SURYA
+</div>
+
+<h2>
+SURYA SYSTEM SCAN
+</h2>
+
+<p
+class="micro blue"
+style="font-weight:800">
+TAP ANY STAT TO INSPECT →
+</p>
+
 <div class="card">
-<div class="stat interactive" onclick="scanDetail(this,'Intelligence: high enough to make ordinary questions unnecessarily interesting.')"><span>Intelligence</span><span class="blue">98%</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Patience: available, but not guaranteed during perfume research.')"><span>Patience</span><span class="blue">76%</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Sense of humour: responsible for several system messages that were not technically necessary.')"><span>Sense of humour</span><span class="blue">91%</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Curiosity: capable of turning one random topic into an entire investigation.')"><span>Curiosity</span><span class="blue">99%</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Problem solving: usually finds a way, occasionally creates three more questions first.')"><span>Problem solving</span><span class="blue">97%</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Brain activity: HIGH. Background processes appear to be running continuously.')"><span>Brain activity</span><span class="blue">HIGH</span></div>
-<div class="stat interactive" onclick="scanDetail(this,'Love: no measurable upper limit found.')"><span>Love</span><span class="blue">∞%</span></div>
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Intelligence: high enough to make ordinary questions unnecessarily interesting.')">
+
+<span>Intelligence</span>
+<span class="blue">98%</span>
+
 </div>
-<p class="green">OVERALL STATUS: PERFECTLY FUNCTIONAL ❤️</p><div class="interactive" onclick="runDeepScan(this)"><strong>◉ DEEP SCAN</strong><div class="micro">Tap to inspect one unusual system behaviour.</div><div id="deepScanResult" class="reveal"></div></div><div id="diagnosticCard" class="card interactive hidden" onclick="runDiagnostics(this)"><strong>⚡ RUN ONE MORE DIAGNOSTIC</strong><div class="micro">Tap to run one tiny unnecessary diagnostic.</div><div class="reveal"></div></div>
-<div id="calibrationCard" class="card hidden"><strong>🎛 BIRTHDAY MODE CONFIGURATION</strong><div class="micro">How ready is Surya for birthday nonsense?</div><div style="display:flex;justify-content:space-between;margin-top:16px;font-weight:800;color:#dbeafe"><span>SERIOUS</span><span>CHAOS</span></div><input id="calibration" type="range" min="0" max="100" value="20" style="width:100%;margin-top:14px;accent-color:#60a5fa"><div id="calibrationResult" class="micro" style="color:#dbeafe;font-weight:800">CHAOS LEVEL: 20%</div><div id="chaosReady" class="reveal"></div></div><div id="inventoryNext" class="card interactive hidden" onclick="go(7)"><strong class="green">BIRTHDAY INVENTORY →</strong><div class="micro">Continue when you are ready.</div></div>
-</div></section>
 
-<section class="page" id="p7"><div class="terminal">
-<div class="small">BIRTHDAY MODE // INVENTORY</div><h2>BIRTHDAY INVENTORY</h2>
-<div class="card interactive" onclick="inventoryTap(this,'STATUS: ALREADY CUT ✓<br>Birthday cake protocol: the virtual cake interaction is reserved for the final surprise.')">CAKE.exe<div class="micro">Tap to inspect item</div><div class="micro reveal"></div></div>
-<div class="card interactive" onclick="inventoryTap(this,'<span class=green>STATUS: GIFTS OPENED ✓</span><br>The gift trail is loaded and safely stored.')">GIFTS.zip<div class="micro">Tap to inspect item</div><div class="micro reveal"></div></div>
-<div class="card interactive" onclick="inventoryTap(this,'<span class=green>STATUS: MEMORIES LOADED ✓</span><br>Personal memory records are ready for the memory section.')">MEMORIES.db<div class="micro">Tap to inspect item</div><div class="micro reveal"></div></div>
-<div class="card interactive" onclick="inventoryTap(this,'STATUS: HIDDEN — PENDING AUTHORIZATION<br>Surprise.exe remains sealed until deployment.')">SURPRISE.exe<div class="micro">Tap to inspect item</div><div class="micro reveal"></div></div>
-<div class="card interactive" onclick="inventoryTap(this,'<span class=green>STATUS: UNLIMITED ∞</span><br>Continuously running. No storage limit. No uninstall option available. ❤️')">LOVE.dll<div class="micro">Tap to inspect item</div><div class="micro reveal"></div></div>
-<p class="small">Nothing in the inventory is being revealed yet. Inspect an item to learn more.</p>
-<button id="inventoryNextBtn" class="hidden" onclick="go(8)">OPEN PERSONAL FILES →</button>
-</div></section>
 
-<section class="page" id="p8"><div class="terminal">
-<div class="small">FILE SYSTEM // SURYA</div><h2>PERSONAL FILES</h2>
-<div class="file" onclick="openFile(9)">📁 memories.db</div>
-<div class="file" onclick="openFile(10)">📁 reasons_people_love_you.git</div>
-<div class="file" onclick="openFile(11)">📁 KNOWN_BUGS.md</div>
-<div class="file" onclick="openFile(12)">📁 RELEASES.log</div>
-<div class="file" onclick="openFile(13)">📁 danger_zone.exe</div>
-<p class="small">Select any file to open its contents. Every file can be revisited.</p>
-</div></section>
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Patience: available, but not guaranteed during perfume research.')">
 
-<section class="page" id="p9"><div class="terminal">
-<div class="small">MEMORIES.DB</div><h2>MEMORIES.DB</h2>
-<p>Three favourite files selected from the database. Scroll through the memories.</p>
-<div class="card"><strong>memory_01.jpg</strong><div class="photo">PHOTO WILL BE ADDED</div><p>A picture I can never scroll past.</p></div>
-<div class="card"><strong>memory_02.jpg</strong><div class="photo">PHOTO WILL BE ADDED</div><p>One of my favourite versions of you.</p></div>
-<div class="card"><strong>memory_03.jpg</strong><div class="photo">PHOTO WILL BE ADDED</div><p>Evidence that you are actually adorable.</p></div>
-<div id="memoryNav"><button onclick="go(8)">← BACK TO PERSONAL FILES</button><button onclick="openFile(10)">NEXT FILE →</button></div>
-</div></section>
+<span>Patience</span>
+<span class="blue">76%</span>
 
-<section class="page" id="p10"><div class="terminal">
-<div class="small">REASONS_PEOPLE_LOVE_YOU.GIT</div><h2>COMMIT HISTORY</h2>
+</div>
+
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Sense of humour: responsible for several system messages that were not technically necessary.')">
+
+<span>Sense of humour</span>
+<span class="blue">91%</span>
+
+</div>
+
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Curiosity: capable of turning one random topic into an entire investigation.')">
+
+<span>Curiosity</span>
+<span class="blue">99%</span>
+
+</div>
+
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Problem solving: usually finds a way, occasionally creates three more questions first.')">
+
+<span>Problem solving</span>
+<span class="blue">97%</span>
+
+</div>
+
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Brain activity: HIGH. Background processes appear to be running continuously.')">
+
+<span>Brain activity</span>
+<span class="blue">HIGH</span>
+
+</div>
+
+
+<div
+class="stat interactive"
+onclick="scanDetail(this,'Love: no measurable upper limit found.')">
+
+<span>Love</span>
+<span class="blue">∞%</span>
+
+</div>
+
+</div>
+
+<p class="green">
+OVERALL STATUS: PERFECTLY FUNCTIONAL ❤️
+</p>
+
+
+<div
+class="interactive"
+onclick="runDeepScan(this)">
+
+<strong>
+◉ DEEP SCAN
+</strong>
+
+<div class="micro">
+Tap to inspect one unusual system behaviour.
+</div>
+
+<div
+id="deepScanResult"
+class="reveal">
+</div>
+
+</div>
+
+
+<div
+id="diagnosticCard"
+class="card interactive hidden"
+onclick="runDiagnostics(this)">
+
+<strong>
+⚡ RUN ONE MORE DIAGNOSTIC
+</strong>
+
+<div class="micro">
+Tap to run one tiny unnecessary diagnostic.
+</div>
+
+<div class="reveal"></div>
+
+</div>
+
+
+<div
+id="calibrationCard"
+class="card hidden">
+
+<strong>
+🎛 BIRTHDAY MODE CONFIGURATION
+</strong>
+
+<div class="micro">
+How ready is Surya for birthday nonsense?
+</div>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+margin-top:16px;
+font-weight:800;
+color:#dbeafe">
+
+<span>SERIOUS</span>
+<span>CHAOS</span>
+
+</div>
+
+<input
+id="calibration"
+type="range"
+min="0"
+max="100"
+value="20"
+style="
+width:100%;
+margin-top:14px;
+accent-color:#60a5fa">
+
+<div
+id="calibrationResult"
+class="micro"
+style="
+color:#dbeafe;
+font-weight:800">
+
+CHAOS LEVEL: 20%
+
+</div>
+
+<div
+id="chaosReady"
+class="reveal">
+</div>
+
+</div>
+
+
+<div
+id="inventoryNext"
+class="card interactive hidden"
+onclick="go(7)">
+
+<strong class="green">
+BIRTHDAY INVENTORY →
+</strong>
+
+<div class="micro">
+Continue when you are ready.
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- INVENTORY -->
+
+<section class="page" id="p7">
+<div class="terminal">
+
+<div class="small">
+BIRTHDAY MODE // INVENTORY
+</div>
+
+<h2>
+BIRTHDAY INVENTORY
+</h2>
+
+
+<div
+class="card interactive"
+onclick="inventoryTap(this,'STATUS: ALREADY CUT ✓<br>Birthday cake protocol: the virtual cake interaction is reserved for the final surprise.')">
+
+CAKE.exe
+
+<div class="micro">
+Tap to inspect item
+</div>
+
+<div class="micro reveal"></div>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="inventoryTap(this,'<span class=green>STATUS: GIFTS OPENED ✓</span><br>The gift trail is loaded and safely stored.')">
+
+GIFTS.zip
+
+<div class="micro">
+Tap to inspect item
+</div>
+
+<div class="micro reveal"></div>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="inventoryTap(this,'<span class=green>STATUS: MEMORIES LOADED ✓</span><br>Personal memory records are ready for the memory section.')">
+
+MEMORIES.db
+
+<div class="micro">
+Tap to inspect item
+</div>
+
+<div class="micro reveal"></div>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="inventoryTap(this,'STATUS: HIDDEN — PENDING AUTHORIZATION<br>Surprise.exe remains sealed until deployment.')">
+
+SURPRISE.exe
+
+<div class="micro">
+Tap to inspect item
+</div>
+
+<div class="micro reveal"></div>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="inventoryTap(this,'<span class=green>STATUS: UNLIMITED ∞</span><br>Continuously running. No storage limit. No uninstall option available. ❤️')">
+
+LOVE.dll
+
+<div class="micro">
+Tap to inspect item
+</div>
+
+<div class="micro reveal"></div>
+
+</div>
+
+<p class="small">
+Nothing in the inventory is being revealed yet.
+Inspect an item to learn more.
+</p>
+
+<button
+id="inventoryNextBtn"
+class="hidden"
+onclick="go(8)">
+OPEN PERSONAL FILES →
+</button>
+
+</div>
+</section>
+
+
+<!-- PERSONAL FILES -->
+
+<section class="page" id="p8">
+<div class="terminal">
+
+<div class="small">
+FILE SYSTEM // SURYA
+</div>
+
+<h2>
+PERSONAL FILES
+</h2>
+
+<div class="file" onclick="openFile(9)">
+📁 memories.db
+</div>
+
+<div class="file" onclick="openFile(10)">
+📁 reasons_people_love_you.git
+</div>
+
+<div class="file" onclick="openFile(11)">
+📁 KNOWN_BUGS.md
+</div>
+
+<div class="file" onclick="openFile(12)">
+📁 RELEASES.log
+</div>
+
+<div class="file" onclick="openFile(13)">
+📁 danger_zone.exe
+</div>
+
+<p class="small">
+Select any file to open its contents.
+Every file can be revisited.
+</p>
+
+</div>
+</section>
+
+
+<!-- MEMORIES -->
+
+<section class="page" id="p9">
+<div class="terminal">
+
+<div class="small">
+MEMORIES.DB
+</div>
+
+<h2>
+MEMORIES.DB
+</h2>
+
+<p>
+Three favourite files selected from the database.
+Scroll through the memories.
+</p>
+
+
 <div class="card">
-<div class="line interactive" onclick="commitTap(this)">01 — You care.</div><div class="line interactive" onclick="commitTap(this)">02 — You listen.</div><div class="line interactive" onclick="commitTap(this)">03 — You make people comfortable.</div>
-<div class="line interactive" onclick="commitTap(this)">04 — You are fun to be around.</div><div class="line interactive" onclick="commitTap(this)">05 — You help without making a big deal.</div>
-<div class="line interactive" onclick="commitTap(this)">06 — You have your own kind of crazy.</div><div class="line interactive" onclick="commitTap(this)">07 — You make people smile.</div>
-</div>
-<div class="card"><strong>LATEST COMMIT</strong><br><br>"Still becoming a better version of yourself."<br><br><span class="green">COMMIT STATUS: APPROVED ✓</span></div>
-<button onclick="go(8)">← BACK TO PERSONAL FILES</button>
-<button onclick="openFile(11)">NEXT FILE →</button>
-</div></section>
 
-<section class="page" id="p11"><div class="terminal">
-<div class="small">KNOWN_BUGS.md</div><h2>BUG REPORT</h2>
+<figure class="memoryFigure">
+
+<img
+class="photo"
+src="images/memory1.jpg"
+alt="Surya sleeping peacefully"
+loading="lazy">
+
+<figcaption>
+
+<strong>
+😴 CUTE VERSION.exe
+</strong>
+
+<span>
+The softest version of him.
+</span>
+
+</figcaption>
+
+</figure>
+
+</div>
+
+
+<div class="card">
+
+<figure class="memoryFigure">
+
+<img
+class="photo"
+src="images/memory2.jpg"
+alt="Surya driving in sunglasses"
+loading="lazy">
+
+<figcaption>
+
+<strong>
+🚗 STYLISH VERSION.exe
+</strong>
+
+<span>
+Apparently driving comes with extra style.
+</span>
+
+</figcaption>
+
+</figure>
+
+</div>
+
+
+<div class="card">
+
+<figure class="memoryFigure">
+
+<img
+class="photo"
+src="images/memory3.jpg"
+alt="Surya and Varshi together"
+loading="lazy">
+
+<figcaption>
+
+<strong>
+❤️ THE PICTURE I ONCE CRAVED
+</strong>
+
+<span>
+Now it’s ours.
+</span>
+
+</figcaption>
+
+</figure>
+
+</div>
+
+
+<div id="memoryNav">
+
+<button onclick="go(8)">
+← BACK TO PERSONAL FILES
+</button>
+
+<button onclick="openFile(10)">
+NEXT FILE →
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- REASONS -->
+
+<section class="page" id="p10">
+<div class="terminal">
+
+<div class="small">
+REASONS_PEOPLE_LOVE_YOU.GIT
+</div>
+
+<h2>
+COMMIT HISTORY
+</h2>
+
+<div class="card">
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+01 — You care.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+02 — You listen.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+03 — You make people comfortable.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+04 — You are fun to be around.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+05 — You help without making a big deal.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+06 — You have your own kind of crazy.
+</div>
+
+<div
+class="line interactive"
+onclick="commitTap(this)">
+07 — You make people smile.
+</div>
+
+</div>
+
+<div class="card">
+
+<strong>
+LATEST COMMIT
+</strong>
+
+<br><br>
+
+"Still becoming a better version of yourself."
+
+<br><br>
+
+<span class="green">
+COMMIT STATUS: APPROVED ✓
+</span>
+
+</div>
+
+<button onclick="go(8)">
+← BACK TO PERSONAL FILES
+</button>
+
+<button onclick="openFile(11)">
+NEXT FILE →
+</button>
+
+</div>
+</section>
+
+
+<!-- BUGS -->
+
+<section class="page" id="p11">
+<div class="terminal">
+
+<div class="small">
+KNOWN_BUGS.md
+</div>
+
+<h2>
+BUG REPORT
+</h2>
+
 <div class="bugList" id="bugList">
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Too handsome">[✓] Too handsome</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Occasionally too cute">[✓] Occasionally too cute</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Impossible to uninstall">[✓] Impossible to uninstall</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Random interests appear without warning">[✓] Random interests appear without warning</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Love level keeps increasing">[✓] Love level keeps increasing</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Highly addictive">[✓] Highly addictive</div>
-<div class="bugItem" draggable="true" ondragstart="dragBug(event)" onpointerdown="startBugPointer(event)" data-bug="Looks adorable while smiling and chitchatting friends">[✓] Looks adorable while smiling and chitchatting friends</div>
-</div>
-<p class="yellow">Suspiciously, all these bugs appear to be features for you. 😌</p>
-<div class="card"><strong>🐛 SYSTEM BUG QUARANTINE</strong><div class="micro">Pick one bug from the list below. Some of them may corrupt your time. Drag it into the quarantine box.</div><div id="quarantine" class="quarantine" ondragover="allowBugDrop(event)" ondrop="dropBug(event)">DROP BUG HERE</div><div id="bugResult" class="micro"></div></div>
-<div class="interactive" onclick="attemptPatch(this)"><strong>TRY AUTOMATED PATCH</strong><div id="patchResult" class="micro">Maybe this time?</div></div>
-<div id="noFixResult" class="card hidden"><p class="red">NO FIX AVAILABLE.</p><p>System has decided to keep him with all bugs. ❤️</p></div>
-<div class="card interactive" onclick="doNotPressBug(this)"><strong>⚠ DO NOT PRESS</strong><div class="micro reveal">You were specifically told not to.</div></div>
-<button onclick="go(8)">← BACK TO PERSONAL FILES</button>
-<button onclick="openFile(12)">NEXT FILE →</button>
-</div></section>
 
-<section class="page" id="p12"><div class="terminal">
-<div class="small">RELEASES.log</div><h2>SURYA // RELEASE HISTORY</h2>
-<div class="card interactive" onclick="releaseTap(this,'Friendship installed. Random conversations became a permanent feature.')"><strong>v1.0 — AS FRIENDS</strong><br><br>• Endless conversations<br>• Friendship installed<br>• Random jokes enabled<br>• Getting to know each other<br><br><span class="green">STATUS: STABLE</span></div>
-<div class="card interactive" onclick="releaseTap(this,'Major update: feelings and future planning were added.')"><strong>v2.0 — BEFORE ENGAGEMENT</strong><br><br>• Feelings upgraded<br>• More time together<br>• Future planning enabled<br>• Families introduced<br><br><span class="green">STATUS: MAJOR UPDATE</span></div>
-<div class="card interactive" onclick="releaseTap(this,'Stable+ build: daily life, responsibilities and unlimited conversations enabled.')"><strong>v3.0 — MARRIED</strong><br><br>• Same person<br>• More responsibilities<br>• Breakfast together<br>• Cooking skills upgraded<br>• Unlimited conversations<br>• Permanent access enabled<br><br><span class="green">STATUS: STABLE+</span></div>
-<div class="card interactive" onclick="releaseTap(this,'Current build loaded successfully. Vietnam expansion pack and birthday mode are active.')"><strong>v4.0 — CURRENT VERSION</strong><br><br>• Accenture.exe<br>• First car unlocked<br>• Vietnam expansion pack<br>• Birthday mode<br>• Still growing together<br><br><span class="green">STATUS: BEST VERSION SO FAR ❤️</span></div>
-<div class="card"><strong>🧩 RELEASE FRAGMENTS</strong><div class="micro">The fragments are scrambled. Select them in the order the relationship actually evolved.</div><div class="memoryPieces" id="relationshipFragments"><button type="button" class="memoryPiece" data-order="1" onclick="relationshipTap(this)">STRANGERS</button><button type="button" class="memoryPiece" data-order="2" onclick="relationshipTap(this)">BEST FRIENDS</button><button type="button" class="memoryPiece" data-order="3" onclick="relationshipTap(this)">BOYFRIEND</button><button type="button" class="memoryPiece" data-order="4" onclick="relationshipTap(this)">FIANCÉ</button><button type="button" class="memoryPiece" data-order="5" onclick="relationshipTap(this)">HUSBAND</button><button type="button" class="memoryPiece" data-order="6" onclick="relationshipTap(this)">MY EVERYTHING</button></div><div id="relationshipResult" class="micro"></div></div><div id="releaseNav" class="hidden"><button onclick="openFile(13)">NEXT FILE →</button></div>
-</div></section>
-
-<section class="page" id="p13"><div class="terminal">
-<div class="small">WARNING // DANGER_ZONE.EXE</div><h2>DANGER ZONE</h2>
-<p class="yellow">These actions may permanently alter SURYA.EXE.</p>
-<button onclick="danger('reset')">RESET SURYA</button>
-<div id="resetResult" class="card hidden"></div>
-<button onclick="danger('single')">ENABLE SINGLE MODE</button>
-<div id="singleResult" class="card hidden"></div>
-<p id="fileProgress" class="small">PERSONAL FILES EXPLORED: 0 / 5</p>
-<div id="quizLocked" class="card">EXPLORE ALL 5 PERSONAL FILES TO UNLOCK THE SURYA QUIZ.</div>
-<button id="dangerBack" onclick="go(8)">← BACK TO PERSONAL FILES</button>
-<div class="card interactive" onclick="dangerScan(this)"><strong>◉ SCAN DANGER ZONE</strong><div class="micro reveal">Tap to check whether these controls are actually safe.</div></div>
-<button id="dangerContinue" class="hidden" onclick="go(14)">CONTINUE →</button>
-</div></section>
-
-<section class="page" id="p14"><div class="terminal">
-<div class="small">TEST // PERSONAL KNOWLEDGE</div><h2>SURYA.EXE KNOWLEDGE TEST</h2>
-<p>Five questions about the birthday boy.</p><p class="small">Warning: both answers may somehow be wrong. 😂</p>
-<div class="bar"><span id="quizBar"></span></div><button onclick="startQuiz()">START QUIZ →</button>
-</div></section>
-
-<section class="page" id="p15"><div class="terminal">
-<div class="small" id="qNum">QUESTION 01</div><h2 id="qText"></h2>
-<button class="qbtn" id="qA" onclick="quizAnswer(0)"></button><button class="qbtn" id="qB" onclick="quizAnswer(1)"></button>
-<div id="qFeedback"></div><button id="nextQuestionBtn" class="hidden" onclick="nextQuizQuestion()">NEXT QUESTION →</button>
-</div></section>
-
-<section class="page" id="p16"><div class="terminal center">
-<div class="small">TEST COMPLETE</div><h1 class="green">SCORE: 5 / 5</h1>
-<p>You successfully completed the Surya personality assessment.</p>
-<div class="card">UNDERSTANDING LEVEL: <span class="green">SUSPICIOUSLY HIGH</span></div>
-<div class="card interactive" onclick="achievementStats(this)"><strong>▦ VIEW ACHIEVEMENT STATS</strong><div class="micro reveal">Tap to inspect what was completed.</div></div><button id="testContinueBtn" class="hidden" onclick="go(17)">CONTINUE TO ACHIEVEMENT →</button>
-</div></section>
-
-<section class="page" id="p17"><div class="terminal center">
-<div class="small">ACHIEVEMENT SYSTEM</div><h2>🏆 SURYA // THE BIRTHDAY BOY</h2>
-<p class="green" style="font-size:1.25rem;font-weight:800">CONGRATULATIONS! 🎉</p>
-<p>You officially made it through the Surya.EXE birthday assessment.</p>
-<button onclick="openAchievementCertificate()">VIEW ACHIEVEMENT CERTIFICATE →</button>
-<div class="card interactive" onclick="rewardInspect(this)"><span class="yellow">REWARD STATUS</span><br><br>SURPRISE.exe<br><span class="yellow">LOCKED — REWARD PENDING</span></div>
-<p class="green">Achievement unlocked. Reward authorization is still pending.</p>
-<button id="certificateContinue" class="hidden" onclick="go(18)">CONTINUE TO REWARD AUTHORIZATION →</button>
-</div></section>
-
-<section class="page" id="p18"><div class="terminal">
-<div class="small">SYSTEM // BIRTHDAY DEPLOYMENT</div><h2>DEPLOYING BIRTHDAY MODE...</h2>
-<p>✓ Memories loaded</p><p>✓ Photos loaded</p><p>✓ Surya profile loaded</p><p>✓ Personality files loaded</p><p>✓ Surya quiz completed</p><p>✓ Birthday mode enabled</p><p id="surpriseStatus" class="yellow">◻ Surprise reward awaiting authorization</p>
-<div class="bar"><span id="deployBar"></span></div><button id="deployBtn" class="holdBtn hidden" onmousedown="startHold(event)" onmouseup="cancelHold()" onmouseleave="cancelHold()" ontouchstart="startHold(event)" ontouchend="cancelHold()"><span>HOLD TO AUTHORIZE SURPRISE.exe</span><i class="holdFill"></i></button>
-</div></section>
-
-<section class="page" id="p19"><div class="terminal center">
-<div class="small">SYSTEM // SURPRISE DEPLOYMENT</div><h1>UNLOCKED.</h1><p class="green">SURPRISE.exe DEPLOYED ✓</p><p class="micro">Birthday deployment complete. Final reveal sequence initialized.</p>
-<div id="cakeStage" class="birthday-stage"><div class="tapCake" onclick="cutDigitalCake(this)"><div class="cake">🎂</div><div class="micro">TAP THE CAKE</div></div></div>
-<div id="candleStage" class="candleStage"><div class="small">FINAL BIRTHDAY CANDLE</div><div class="candle" id="candle" onpointerdown="startCandle(event)" onpointerup="cancelCandle()" onpointercancel="cancelCandle()"><span class="flame">🔥</span>🕯️</div><p class="micro">PRESS AND HOLD TO BLOW OUT THE CANDLE</p><div id="candleResult" class="micro"></div></div>
-<div id="bouquetStage" class="bouquetStage"><div class="small">PERSONALITY BOUQUET.exe</div><h2>FOR ONE VERY SPECIFIC HUMAN</h2><p class="micro">Tap every flower to open its little note.</p><div class="flowers"><button class="flower" type="button" onclick="openFlower(this)">🌸<span>GOOD HUMAN</span></button><button class="flower" type="button" onclick="openFlower(this)">🌼<span>PRECIOUS</span></button><button class="flower" type="button" onclick="openFlower(this)">🌷<span>FOOD EXPERT</span></button><button class="flower" type="button" onclick="openFlower(this)">🌺<span>CURIOUS MIND</span></button><button class="flower" type="button" onclick="openFlower(this)">🌻<span>BEST COOK</span></button><button class="flower" type="button" onclick="openFlower(this)">💙<span>MY PERSON</span></button></div><div id="bouquetResult" class="micro"></div></div>
-<div id="surpriseEnd" class="hidden"><p class="green">SURPRISE PROTOCOL COMPLETE.</p><p class="blue">FINAL MESSAGE AUTHORIZED ✓</p><p>This entire little system was built for one very specific user — <strong class="blue">SURYA.</strong></p><p>Because a simple “Happy Birthday” was never going to be enough. ❤️</p><button id="finalContinue" onclick="go(20)">CONTINUE →</button></div>
-</div></section>
-
-<section class="page" id="p20"><div class="terminal center" onclick="finalPop()">
-<div class="cake">🎂</div><div class="small">SYSTEM // FINAL MESSAGE</div><div class="big">HAPPY</div><div class="big">BIRTHDAY,</div><div class="big">LOVE</div>
-<p>You were successfully located.<br>Your system was scanned.<br>Your bugs were documented.<br>Your personal files were explored.<br>Your birthday mode was activated.</p><p>And honestly...</p><h2>You are one of my favourite people to exist. ❤️</h2><p>Happy Birthday, my love.<br><br>— Varshi 💙</p>
-<p class="green finalStatus">STATUS: SUCCESSFULLY LOVED</p>
-</div></section>
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Too handsome">
+[✓] Too handsome
 </div>
 
-<div id="popup" class="popup hidden"><div class="popupBox"><div id="popupText"></div></div></div>
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Occasionally too cute">
+[✓] Occasionally too cute
+</div>
+
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Impossible to uninstall">
+[✓] Impossible to uninstall
+</div>
+
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Random interests appear without warning">
+[✓] Random interests appear without warning
+</div>
+
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Love level keeps increasing">
+[✓] Love level keeps increasing
+</div>
+
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Highly addictive">
+[✓] Highly addictive
+</div>
+
+<div
+class="bugItem"
+draggable="true"
+ondragstart="dragBug(event)"
+onpointerdown="startBugPointer(event)"
+data-bug="Looks adorable while smiling and chitchatting friends">
+[✓] Looks adorable while smiling and chitchatting friends
+</div>
+
+</div>
+
+<p class="yellow">
+Suspiciously, all these bugs appear to be features for you. 😌
+</p>
+
+
+<div class="card">
+
+<strong>
+🐛 SYSTEM BUG QUARANTINE
+</strong>
+
+<div class="micro">
+Pick one bug from the list below.
+Some of them may corrupt your time.
+Drag it into the quarantine box.
+</div>
+
+<div
+id="quarantine"
+class="quarantine"
+ondragover="allowBugDrop(event)"
+ondrop="dropBug(event)">
+DROP BUG HERE
+</div>
+
+<div id="bugResult" class="micro"></div>
+
+</div>
+
+
+<div
+class="interactive"
+onclick="attemptPatch(this)">
+
+<strong>
+TRY AUTOMATED PATCH
+</strong>
+
+<div
+id="patchResult"
+class="micro">
+Maybe this time?
+</div>
+
+</div>
+
+
+<div
+id="noFixResult"
+class="card hidden">
+
+<p class="red">
+NO FIX AVAILABLE.
+</p>
+
+<p>
+System has decided to keep him with all bugs. ❤️
+</p>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="doNotPressBug(this)">
+
+<strong>
+⚠ DO NOT PRESS
+</strong>
+
+<div class="micro reveal">
+You were specifically told not to.
+</div>
+
+</div>
+
+
+<button onclick="go(8)">
+← BACK TO PERSONAL FILES
+</button>
+
+<button onclick="openFile(12)">
+NEXT FILE →
+</button>
+
+</div>
+</section>
+
+
+<!-- RELEASES -->
+
+<section class="page" id="p12">
+<div class="terminal">
+
+<div class="small">
+RELEASES.log
+</div>
+
+<h2>
+SURYA // RELEASE HISTORY
+</h2>
+
+
+<div
+class="card interactive"
+onclick="releaseTap(this,'Friendship installed. Random conversations became a permanent feature.')">
+
+<strong>
+v1.0 — AS FRIENDS
+</strong>
+
+<br><br>
+
+• Endless conversations<br>
+• Friendship installed<br>
+• Random jokes enabled<br>
+• Getting to know each other
+
+<br><br>
+
+<span class="green">
+STATUS: STABLE
+</span>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="releaseTap(this,'Major update: feelings and future planning were added.')">
+
+<strong>
+v2.0 — BEFORE ENGAGEMENT
+</strong>
+
+<br><br>
+
+• Feelings upgraded<br>
+• More time together<br>
+• Future planning enabled<br>
+• Families introduced
+
+<br><br>
+
+<span class="green">
+STATUS: MAJOR UPDATE
+</span>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="releaseTap(this,'Stable+ build: daily life, responsibilities and unlimited conversations enabled.')">
+
+<strong>
+v3.0 — MARRIED
+</strong>
+
+<br><br>
+
+• Same person<br>
+• More responsibilities<br>
+• Breakfast together<br>
+• Cooking skills upgraded<br>
+• Unlimited conversations<br>
+• Permanent access enabled
+
+<br><br>
+
+<span class="green">
+STATUS: STABLE+
+</span>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="releaseTap(this,'Current build loaded successfully. Vietnam expansion pack and birthday mode are active.')">
+
+<strong>
+v4.0 — CURRENT VERSION
+</strong>
+
+<br><br>
+
+• Accenture.exe<br>
+• First car unlocked<br>
+• Vietnam expansion pack<br>
+• Birthday mode<br>
+• Still growing together
+
+<br><br>
+
+<span class="green">
+STATUS: BEST VERSION SO FAR ❤️
+</span>
+
+</div>
+
+
+<div class="card">
+
+<strong>
+🧩 RELEASE FRAGMENTS
+</strong>
+
+<div class="micro">
+The fragments are scrambled.
+Select them in the order the relationship actually evolved.
+</div>
+
+<div
+class="memoryPieces"
+id="relationshipFragments">
+
+<button
+type="button"
+class="memoryPiece"
+data-order="1"
+onclick="relationshipTap(this)">
+STRANGERS
+</button>
+
+<button
+type="button"
+class="memoryPiece"
+data-order="2"
+onclick="relationshipTap(this)">
+BEST FRIENDS
+</button>
+
+<button
+type="button"
+class="memoryPiece"
+data-order="3"
+onclick="relationshipTap(this)">
+BOYFRIEND
+</button>
+
+<button
+type="button"
+class="memoryPiece"
+data-order="4"
+onclick="relationshipTap(this)">
+FIANCÉ
+</button>
+
+<button
+type="button"
+class="memoryPiece"
+data-order="5"
+onclick="relationshipTap(this)">
+HUSBAND
+</button>
+
+<button
+type="button"
+class="memoryPiece"
+data-order="6"
+onclick="relationshipTap(this)">
+MY EVERYTHING
+</button>
+
+</div>
+
+<div
+id="relationshipResult"
+class="micro">
+</div>
+
+</div>
+
+
+<div id="releaseNav" class="hidden">
+
+<button onclick="openFile(13)">
+NEXT FILE →
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- DANGER ZONE -->
+
+<section class="page" id="p13">
+<div class="terminal">
+
+<div class="small">
+WARNING // DANGER_ZONE.EXE
+</div>
+
+<h2>
+DANGER ZONE
+</h2>
+
+<p class="yellow">
+These actions may permanently alter SURYA.EXE.
+</p>
+
+
+<button onclick="danger('reset')">
+RESET SURYA
+</button>
+
+<div
+id="resetResult"
+class="card hidden">
+</div>
+
+
+<button onclick="danger('single')">
+ENABLE SINGLE MODE
+</button>
+
+<div
+id="singleResult"
+class="card hidden">
+</div>
+
+
+<p
+id="fileProgress"
+class="small">
+PERSONAL FILES EXPLORED: 0 / 5
+</p>
+
+
+<div
+id="quizLocked"
+class="card">
+EXPLORE ALL 5 PERSONAL FILES TO UNLOCK THE SURYA QUIZ.
+</div>
+
+
+<button
+id="dangerBack"
+onclick="go(8)">
+← BACK TO PERSONAL FILES
+</button>
+
+
+<div
+class="card interactive"
+onclick="dangerScan(this)">
+
+<strong>
+◉ SCAN DANGER ZONE
+</strong>
+
+<div class="micro reveal">
+Tap to check whether these controls are actually safe.
+</div>
+
+</div>
+
+
+<button
+id="dangerContinue"
+class="hidden"
+onclick="go(14)">
+CONTINUE →
+</button>
+
+</div>
+</section>
+
+
+<!-- QUIZ INTRO -->
+
+<section class="page" id="p14">
+<div class="terminal">
+
+<div class="small">
+TEST // PERSONAL KNOWLEDGE
+</div>
+
+<h2>
+SURYA.EXE KNOWLEDGE TEST
+</h2>
+
+<p>
+Five questions about the birthday boy.
+</p>
+
+<p class="small">
+Warning: both answers may somehow be wrong. 😂
+</p>
+
+<div class="bar">
+<span id="quizBar"></span>
+</div>
+
+<button onclick="startQuiz()">
+START QUIZ →
+</button>
+
+</div>
+</section>
+
+
+<!-- QUIZ -->
+
+<section class="page" id="p15">
+<div class="terminal">
+
+<div
+class="small"
+id="qNum">
+QUESTION 01
+</div>
+
+<h2 id="qText"></h2>
+
+<button
+class="qbtn"
+id="qA"
+onclick="quizAnswer(0)">
+</button>
+
+<button
+class="qbtn"
+id="qB"
+onclick="quizAnswer(1)">
+</button>
+
+<div id="qFeedback"></div>
+
+<button
+id="nextQuestionBtn"
+class="hidden"
+onclick="nextQuizQuestion()">
+NEXT QUESTION →
+</button>
+
+</div>
+</section>
+
+
+<!-- TEST COMPLETE -->
+
+<section class="page" id="p16">
+<div class="terminal center">
+
+<div class="small">
+TEST COMPLETE
+</div>
+
+<h1 class="green">
+SCORE: 5 / 5
+</h1>
+
+<p>
+You successfully completed the Surya personality assessment.
+</p>
+
+<div class="card">
+
+UNDERSTANDING LEVEL:
+<span class="green">
+SUSPICIOUSLY HIGH
+</span>
+
+</div>
+
+
+<div
+class="card interactive"
+onclick="achievementStats(this)">
+
+<strong>
+▦ VIEW ACHIEVEMENT STATS
+</strong>
+
+<div class="micro reveal">
+Tap to inspect what was completed.
+</div>
+
+</div>
+
+
+<button
+id="testContinueBtn"
+class="hidden"
+onclick="go(17)">
+CONTINUE TO ACHIEVEMENT →
+</button>
+
+</div>
+</section>
+
+
+<!-- ACHIEVEMENT -->
+
+<section class="page" id="p17">
+<div class="terminal center">
+
+<div class="small">
+ACHIEVEMENT SYSTEM
+</div>
+
+<h2>
+🏆 SURYA // THE BIRTHDAY BOY
+</h2>
+
+<p
+class="green"
+style="font-size:1.25rem;font-weight:800">
+CONGRATULATIONS! 🎉
+</p>
+
+<p>
+You officially made it through the Surya.EXE birthday assessment.
+</p>
+
+<button onclick="openAchievementCertificate()">
+VIEW ACHIEVEMENT CERTIFICATE →
+</button>
+
+
+<div
+class="card interactive"
+onclick="rewardInspect(this)">
+
+<span class="yellow">
+REWARD STATUS
+</span>
+
+<br><br>
+
+SURPRISE.exe
+
+<br>
+
+<span class="yellow">
+LOCKED — REWARD PENDING
+</span>
+
+</div>
+
+<p class="green">
+Achievement unlocked.
+Reward authorization is still pending.
+</p>
+
+<button
+id="certificateContinue"
+class="hidden"
+onclick="go(18)">
+CONTINUE TO REWARD AUTHORIZATION →
+</button>
+
+</div>
+</section>
+
+
+<!-- DEPLOYMENT -->
+
+<section class="page" id="p18">
+<div class="terminal">
+
+<div class="small">
+SYSTEM // BIRTHDAY DEPLOYMENT
+</div>
+
+<h2>
+DEPLOYING BIRTHDAY MODE...
+</h2>
+
+<p>
+✓ Memories loaded
+</p>
+
+<p>
+✓ Photos loaded
+</p>
+
+<p>
+✓ Surya profile loaded
+</p>
+
+<p>
+✓ Personality files loaded
+</p>
+
+<p>
+✓ Surya quiz completed
+</p>
+
+<p>
+✓ Birthday mode enabled
+</p>
+
+<p
+id="surpriseStatus"
+class="yellow">
+◻ Surprise reward awaiting authorization
+</p>
+
+
+<div class="bar">
+<span id="deployBar"></span>
+</div>
+
+
+<button
+id="deployBtn"
+class="holdBtn hidden"
+onmousedown="startHold(event)"
+onmouseup="cancelHold()"
+onmouseleave="cancelHold()"
+ontouchstart="startHold(event)"
+ontouchend="cancelHold()">
+
+<span>
+HOLD TO AUTHORIZE SURPRISE.exe
+</span>
+
+<i class="holdFill"></i>
+
+</button>
+
+</div>
+</section>
+
+
+<!-- SURPRISE -->
+
+<section class="page" id="p19">
+<div class="terminal center">
+
+<div class="small">
+SYSTEM // SURPRISE DEPLOYMENT
+</div>
+
+<h1>
+UNLOCKED.
+</h1>
+
+<p class="green">
+SURPRISE.exe DEPLOYED ✓
+</p>
+
+<p class="micro">
+Birthday deployment complete.
+Final reveal sequence initialized.
+</p>
+
+
+<div
+id="cakeStage"
+class="birthday-stage">
+
+<div
+class="tapCake"
+onclick="cutDigitalCake(this)">
+
+<div class="cake">
+🎂
+</div>
+
+<div class="micro">
+TAP THE CAKE
+</div>
+
+</div>
+
+</div>
+
+
+<div
+id="candleStage"
+class="candleStage">
+
+<div class="small">
+FINAL BIRTHDAY CANDLE
+</div>
+
+<div
+class="candle"
+id="candle"
+onpointerdown="startCandle(event)"
+onpointerup="cancelCandle()"
+onpointercancel="cancelCandle()">
+
+<span class="flame">
+🔥
+</span>
+
+🕯️
+
+</div>
+
+<p class="micro">
+PRESS AND HOLD TO BLOW OUT THE CANDLE
+</p>
+
+<div id="candleResult" class="micro"></div>
+
+</div>
+
+
+<div
+id="bouquetStage"
+class="bouquetStage">
+
+<div class="small">
+PERSONALITY BOUQUET.exe
+</div>
+
+<h2>
+FOR ONE VERY SPECIFIC HUMAN
+</h2>
+
+<p class="micro">
+Tap every flower to open its little note.
+</p>
+
+
+<div class="flowers">
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+🌸
+<span>GOOD HUMAN</span>
+</button>
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+🌼
+<span>PRECIOUS</span>
+</button>
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+🌷
+<span>FOOD EXPERT</span>
+</button>
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+🌺
+<span>CURIOUS MIND</span>
+</button>
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+🌻
+<span>BEST COOK</span>
+</button>
+
+<button
+class="flower"
+type="button"
+onclick="openFlower(this)">
+💙
+<span>MY PERSON</span>
+</button>
+
+</div>
+
+<div id="bouquetResult" class="micro"></div>
+
+</div>
+
+
+<div id="surpriseEnd" class="hidden">
+
+<p class="green">
+SURPRISE PROTOCOL COMPLETE.
+</p>
+
+<p class="blue">
+FINAL MESSAGE AUTHORIZED ✓
+</p>
+
+<p>
+This entire little system was built for one very specific user —
+<strong class="blue">SURYA.</strong>
+</p>
+
+<p>
+Because a simple “Happy Birthday” was never going to be enough. ❤️
+</p>
+
+<button
+id="finalContinue"
+onclick="go(20)">
+CONTINUE →
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- FINAL -->
+
+<section class="page" id="p20">
+
+<div
+class="terminal center"
+onclick="finalPop()">
+
+<div class="cake">
+🎂
+</div>
+
+<div class="small">
+SYSTEM // FINAL MESSAGE
+</div>
+
+<div class="big">
+HAPPY
+</div>
+
+<div class="big">
+BIRTHDAY,
+</div>
+
+<div class="big">
+LOVE
+</div>
+
+<p>
+You were successfully located.
+<br>
+Your system was scanned.
+<br>
+Your bugs were documented.
+<br>
+Your personal files were explored.
+<br>
+Your birthday mode was activated.
+</p>
+
+<p>
+And honestly...
+</p>
+
+<h2>
+You are one of my favourite people to exist. ❤️
+</h2>
+
+<p>
+Happy Birthday, my love.
+<br><br>
+— Varshi 💙
+</p>
+
+<p class="green finalStatus">
+STATUS: SUCCESSFULLY LOVED
+</p>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- POPUP -->
+
+<div
+id="popup"
+class="popup hidden">
+
+<div class="popupBox">
+
+<div id="popupText"></div>
+
+</div>
+
+</div>
+
 
 <script>
-let noAttempts=0,quizIndex=0,deployStarted=false,searchStarted=false,searchRan=false,holdTimer=null,deepScanDone=false,swipeStartX=0,swipeDragging=false,shutdownTimer=null,calibrationReady=false,memoryOrderIndex=0,candleTimer=null,flowersOpened=0,quarantinedCount=0;
-function go(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p'+n).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(n===12){const box=document.getElementById('relationshipFragments');if(box&&!box.dataset.shuffled){const pieces=[...box.children];pieces.sort(()=>Math.random()-.5);pieces.forEach(x=>box.appendChild(x));box.dataset.shuffled='1'}}if(n===15)loadQuiz();if(n===18)startDeployment();if(n===20)setTimeout(finalPop,700); }
-function popup(html){document.getElementById('popupText').innerHTML=html;document.getElementById('popup').classList.remove('hidden')}
-function closePopup(){document.getElementById('popup').classList.add('hidden')}
-function runRealSearch(){const input=document.getElementById('suryaSearch');const hint=document.getElementById('searchHint');if(!input)return;if(input.value.trim().toUpperCase()!=='SURYA'){hint.innerHTML='<span class="red">USER NOT FOUND.</span> Enter a valid name.';input.focus();input.classList.add('shake');setTimeout(()=>input.classList.remove('shake'),400);return;}if(searchRan)return;searchRan=true;hint.innerHTML='<span class="green">MATCH FOUND — SURYA</span>';input.disabled=true;document.querySelectorAll('#searchLines .line').forEach(x=>x.classList.add('hidden'));const ids=['s1','s2','s3','s4'];ids.forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.remove('hidden'),350+i*650));setTimeout(()=>birthdayConflict(),3100)}
-function birthdayConflict(){popup('<div class="popupTitle red">⚠ BIRTHDAY CONFLICT</div><br><div class="popupLarge">A birthday conflict was found in the records.<br><br>One entry appears to be incorrect. 😂</div><br><button onclick="closePopup();go(2)">REVIEW CONFLICT →</button>')}
-function securityYes(){
-  const y=document.getElementById('yesLever'),n=document.getElementById('noLever'),cat=document.getElementById('securityCat');
-  y.classList.add('pulled'); n.disabled=true; n.classList.add('locked');
-  cat.textContent='🐱'; cat.classList.remove('angry'); cat.classList.add('show','shy');
-  document.getElementById('attemptText').innerHTML='<span class="green">YES SELECTED ✓</span>';
-  document.getElementById('securityMsg').innerHTML='<p><span class="green">You may be short...</span><br>but I see you up there, above the world, more than anything. ❤️</p><p class="green">✓ ANSWER ACCEPTED</p>';
-  setTimeout(()=>go(5),10000);
-}
-function securityNo(){
-  noAttempts++; const n=document.getElementById('noLever'),y=document.getElementById('yesLever'),cat=document.getElementById('securityCat');
-  n.classList.add('pulled');
-  cat.classList.remove('show','shy','angry'); void cat.offsetWidth; cat.textContent=noAttempts===1?'🐱':noAttempts===2?'😾':'😾'; cat.classList.add('show','angry');
-  setTimeout(()=>{n.classList.remove('pulled');cat.classList.remove('show','angry');},900);
-  document.getElementById('attemptText').innerHTML='<span class="yellow">NO ATTEMPT '+noAttempts+' / 3</span>';
-  const messages=[
-    '<span class="yellow">NO? REALLY? 🐱</span><br><br>Varshi is short.<br>You are only two inches taller than her.<br><br>If she belongs in the short category for me...<br><strong>you do too. 😂</strong>',
-    '<span class="yellow">THE CAT DISAGREES. 😾</span><br><br>Two inches is a very small escape route.<br><br>The short-category door is still closed. 😂',
-    '<span class="red">ENOUGH. 😾</span><br><br>The cat has finished the height calculation.<br><br><strong>TRY YES, SHORTY. 😂</strong>'
-  ]
-  document.getElementById('securityMsg').innerHTML='<p>'+messages[Math.min(noAttempts-1,2)]+'</p>';
-  if(noAttempts>=3){n.disabled=true;n.classList.add('locked');y.classList.add('ready');document.getElementById('attemptText').innerHTML='<span class="yellow">NO LOCKED — CAT HAS SPOKEN.</span>';}
-}
-function selectBirthday(el,correct){document.querySelectorAll('.choiceGrid .interactive').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');const box=document.getElementById('birthdayInvestigation'),btn=document.getElementById('restoreBtn');box.classList.remove('hidden');if(correct){box.innerHTML='<span class="green">✓ RECORD CONFIRMED</span><br><br>22 OCT 1999 matches the original birthday record.<br>Fake younger version rejected. 😂';btn.classList.remove('hidden')}else{box.innerHTML='<span class="red">✕ RECORD REJECTED</span><br><br>That record is the suspicious one.<br>Nice attempt at making him younger. 😂';btn.classList.add('hidden')}}
-function runDeepScan(el){if(deepScanDone)return;deepScanDone=true;const r=document.getElementById('deepScanResult');r.classList.add('show');r.innerHTML='<br><span class="yellow">ANOMALY FOUND:</span> random interests are generating at an unpredictable rate.<br><br><span class="green">DEEP SCAN COMPLETE ✓</span>';el.classList.add('selected');document.getElementById('diagnosticCard').classList.remove('hidden')}
-function revealMemory(card,text){const r=card.querySelector('.reveal');if(r){r.textContent=text;r.classList.add('show');card.classList.add('selected');const done=document.querySelectorAll('#p9 .card.interactive.selected').length;if(done>=3){const n=document.getElementById('memoryProgress');if(n)n.innerHTML='<span class="green">MEMORIES INSPECTED: 3 / 3 ✓</span>';document.getElementById('memoryNav').classList.remove('hidden')}}}
-function inspectRecord(el,text){document.querySelectorAll('#p2 .birthday-record').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');const own=el.querySelector('.reveal');if(own){own.textContent=text;own.classList.add('show')}if(el.querySelector('.green'))document.getElementById('recordNext').classList.remove('hidden')}
-function inspectProfile(el){const r=document.getElementById('profileInspect');r.classList.add('show');r.innerHTML='<span class="green">PROFILE LOADED ✓</span><br>Original birthday profile loaded. No factory reset available.';el.classList.add('selected');document.getElementById('systemScanBtn').classList.remove('hidden')}
-function profilePageTap(e){if(e.target.closest('button'))return;document.getElementById('systemScanBtn').classList.remove('hidden');const r=document.getElementById('profileInspect');r.classList.add('show');r.innerHTML='<span class="green">PROFILE READY ✓</span><br>Profile acknowledged. System scan is now available.'}
-function runBirthdayCommand(){const i=document.getElementById('birthdayCommand'),r=document.getElementById('birthdayCommandResult'),b=document.getElementById('birthdayContinue');if(!i||!r)return;if(i.value.trim()==='./birthday --run'){i.disabled=true;r.innerHTML='';b.classList.add('hidden');const lines=['<span class="green">COMMAND ACCEPTED ✓</span>','INITIALIZING BIRTHDAY MODE...','<span class="blue">████████████████████ 100%</span>','<br><span class="green">Birthday mode has already begun. 🎂</span>'];lines.forEach((line,idx)=>setTimeout(()=>{r.innerHTML+=line+(idx<lines.length-1?'<br>':'');if(idx===lines.length-1)b.classList.remove('hidden')},idx*900));}else{r.innerHTML='<span class="red">COMMAND NOT RECOGNIZED.</span><br>Use: ./birthday --run'}}
-function calibrateSystem(e){const v=Number(e.target.value),r=document.getElementById('calibrationResult'),ready=document.getElementById('chaosReady');r.textContent='CHAOS LEVEL: '+v+'%';if(v>=100&&!calibrationReady){calibrationReady=true;ready.innerHTML='<span class="green">CHAOS LEVEL: 100% ✓</span><br><br><strong>Birthday settings accepted.</strong><br>System is now prepared for unreasonable amounts of cake, teasing and affection. 😂';ready.classList.add('show');setTimeout(()=>document.getElementById('inventoryNext').classList.remove('hidden'),600)}}
-function relationshipTap(el){const n=Number(el.dataset.order),r=document.getElementById('relationshipResult');if(n!==memoryOrderIndex+1){r.innerHTML='<span class="yellow">ORDER RESET.</span><br>Start again from the beginning.';document.querySelectorAll('#relationshipFragments .memoryPiece').forEach(x=>x.classList.remove('done'));memoryOrderIndex=0;return}el.classList.add('done');memoryOrderIndex++;r.innerHTML='<span class="green">RELEASE '+String(memoryOrderIndex).padStart(2,'0')+' CONNECTED ✓</span>';if(memoryOrderIndex===6){r.innerHTML='<span class="green">RELEASE TIMELINE RESTORED ✓</span><br>Strangers → Best Friends → Boyfriend → Fiancé → Husband → My Everything ❤️<br><br><span class="green">Everything upgraded. Everything retained.</span>';memoryOrderIndex=0;document.getElementById('releaseNav').classList.remove('hidden')}}
-function inventoryTap(el,text){const r=el.querySelector('.reveal');if(r){let t=text;if(t.includes('STATUS: ALREADY CUT'))t=t.replace('STATUS: ALREADY CUT ✓','<span class="green">STATUS: ALREADY CUT ✓</span>');if(t.includes('STATUS: HIDDEN — PENDING AUTHORIZATION'))t=t.replace('STATUS: HIDDEN — PENDING AUTHORIZATION','<span class="yellow">STATUS: HIDDEN — PENDING AUTHORIZATION</span>');r.innerHTML=t;r.classList.add('show')}el.classList.add('selected');const items=document.querySelectorAll('#p7 .card.interactive');const checked=[...items].filter(x=>x.classList.contains('selected')).length;if(checked===5)document.getElementById('inventoryNextBtn').classList.remove('hidden')}
-function scanDetail(el,text){let r=el.querySelector('.scan-note');if(!r){r=document.createElement('div');r.className='micro green scan-note';el.appendChild(r)}r.textContent=text;r.classList.add('show');el.classList.add('selected')}
-function commitTap(el){el.classList.add('selected');el.dataset.note='opened';}
-function releaseTap(el,text){if(el.dataset.opened)return;el.dataset.opened='1';el.classList.add('selected');const note=document.createElement('div');note.className='micro green';note.textContent=text;el.appendChild(note)}
-function achievementInspect(el){openAchievementCertificate()}
-function openAchievementCertificate(){const html=`<div style="text-align:center"><div class="small">SURYA.EXE // ACHIEVEMENT CERTIFICATE</div><h2>🏆 CERTIFIED BIRTHDAY BOY</h2><div class="card" style="text-align:left"><div class="stat"><span>NAME</span><span class="blue">SURYA</span></div><div class="stat"><span>COURSE</span><span class="blue">SURYA.EXE PERSONALITY ASSESSMENT</span></div><div class="stat"><span>MARKS</span><span class="green">5 / 5</span></div><div class="stat"><span>GRADE</span><span class="green">EXCEPTIONAL</span></div><div class="stat"><span>STATUS</span><span class="green">ACHIEVEMENT UNLOCKED ✓</span></div></div><p>Issued to one very specific human who successfully survived his own birthday system. ❤️</p><button onclick="closePopup();document.getElementById('certificateContinue').classList.remove('hidden')">CLOSE CERTIFICATE →</button></div>`;popup(html)}
-function rewardInspect(el){el.classList.add('selected');const n=el.querySelector('.micro')||document.createElement('div');n.className='micro yellow';n.textContent='Reward is still waiting for manual authorization.';if(!n.parentNode)el.appendChild(n)}
-function attemptPatch(el){const r=document.getElementById('patchResult');const msgs=['Core personality is already in use. ❤️','Patch refused. The cute version is already installed. 😌','Update blocked. There is already too much charm running. 🐱','Repair skipped. System seems happier this way. ❤️'];if(quarantinedCount===0){r.innerHTML='<span class="yellow">PATCH WAITING.</span><br>Quarantine at least one bug first.';el.classList.add('selected');return}const count=Number(el.dataset.patches||0);el.dataset.patches=count+1;r.innerHTML='<span class="red">PATCH FAILED.</span> '+msgs[count%msgs.length];el.classList.add('selected');document.getElementById('noFixResult').classList.remove('hidden')}
-function startHold(e){e.preventDefault();if(holdTimer)return;const b=document.getElementById('deployBtn');const fill=b.querySelector('.holdFill');let start=Date.now();fill.style.width='0';holdTimer=setInterval(()=>{let pct=Math.min(100,((Date.now()-start)/1600)*100);fill.style.width=pct+'%';if(pct>=100){clearInterval(holdTimer);holdTimer=null;b.onmousedown=null;b.onmouseup=null;b.onmouseleave=null;b.ontouchstart=null;b.ontouchend=null;go(19)}},30)}
-function cancelHold(){if(!holdTimer)return;clearInterval(holdTimer);holdTimer=null;const b=document.getElementById('deployBtn');const fill=b.querySelector('.holdFill');fill.style.width='0'}
-function cutDigitalCake(el){el.classList.add('selected');el.innerHTML='<div class="cake">🍰</div><div class="micro green">CAKE CUT SUCCESSFULLY ✓</div>';burstPapers();setTimeout(()=>{document.getElementById('candleStage').style.display='block';document.getElementById('cakeStage').style.opacity='.45';document.getElementById('cakeStage').style.pointerEvents='none'},900)}
-function startCandle(e){e.preventDefault();if(candleTimer)return;const candle=document.getElementById('candle'),result=document.getElementById('candleResult');let start=Date.now();candle.classList.add('selected');candleTimer=setInterval(()=>{const pct=Math.min(100,((Date.now()-start)/1800)*100);result.innerHTML='<span class="blue">BLOW POWER: '+Math.round(pct)+'%</span>';if(pct>=100){clearInterval(candleTimer);candleTimer=null;candle.classList.add('off');result.innerHTML='<span class="green">CANDLE BLOWN OUT ✓</span><br>WISH PROTOCOL ACCEPTED.';darkCandleTransition()}},30)}
-function cancelCandle(){if(!candleTimer)return;clearInterval(candleTimer);candleTimer=null;document.getElementById('candleResult').innerHTML='<span class="yellow">Keep holding...</span>'}
-function darkCandleTransition(){let layer=document.getElementById('darkTransition');if(!layer){layer=document.createElement('div');layer.id='darkTransition';layer.className='darkTransition';layer.innerHTML='<div class="darkText" id="darkText">&gt; candle.signal lost<br>&gt; darkness protocol engaged...<br>&gt; ...<br><br><span class="green">&gt; it\'s dark... smile. 🙂<br>&gt; the system is not done yet. 💙</span></div>';document.body.appendChild(layer)}layer.classList.add('show');setTimeout(()=>document.getElementById('darkText').classList.add('show'),900);setTimeout(()=>{layer.classList.remove('show');document.getElementById('darkText').classList.remove('show');document.getElementById('bouquetStage').style.display='block';document.getElementById('candleStage').style.display='none'},10000)}
-function openFlower(el){if(el.classList.contains('open'))return;el.classList.add('open');flowersOpened++;const notes=['You care in a way that makes people feel safe.','Somehow precious even during software updates.','Food is apparently a serious field of research.','One random topic can become a full investigation.','You somehow turn cooking into another way of caring.','This one does not need a system explanation. ❤️'];el.querySelector('span').textContent=notes[flowersOpened-1];if(flowersOpened===6){document.getElementById('bouquetResult').innerHTML='<span class="green">BOUQUET COMPLETE ✓</span><br>Six little pieces of you. One very favourite human.';setTimeout(()=>document.getElementById('surpriseEnd').classList.remove('hidden'),1800)}}
-function danger(type){const r=document.getElementById(type==='reset'?'resetResult':'singleResult');r.classList.remove('hidden');r.innerHTML=type==='reset'?'<span class="red">RESET FAILED 🚫</span><br><br>Too many updates have been installed.<br>Current personality cannot be restored to factory settings.':'<span class="red">ACCESS DENIED 🚫</span><br><br>Single Mode is incompatible with current system configuration.<br><br>Reason: SURYA.EXE has already been permanently assigned to a very specific user. 😌'}
-const quiz=[
-{q:'Surya says: "I will wake up early tomorrow and go to the park." What happens?',a:'He wakes up early and exercises.',b:'He sleeps and wakes up with Varshi.',fa:'❌ Wrong. That is the PLAN, not the execution. 😂',fb:'❌ Also wrong. That is not just waking up — that is the ACTUAL system default. 😂'},
-{q:'Surya is craving tasty food. What does he do?',a:'Orders something immediately.',b:'Cooks something amazing.',fa:'❌ Wrong. He overthinks what to order so much that sometimes he ends up not ordering at all. 😂',fb:'❌ Also wrong. Because somehow he ends up cooking the exact food he was craving — and the whole process becomes a big production. ❤️'},
-{q:'Surya discovers something interesting, like camping, perfumes, flights, or the world. What happens next?',a:'He casually looks into it and moves on.',b:'He turns it into a full investigation.',fa:'❌ Wrong. Casual research is rarely the final destination. 😂',fb:'❌ Wrong. That is much closer to the actual operating system. 😌'},
-{q:'Surya is deciding which perfume to buy. How long will this take?',a:'Five minutes.',b:'One day.',fa:'❌ Wrong. Five minutes is not enough time for this level of investigation. 😂',fb:'❌ Wrong. One day is still wildly optimistic — he takes half a decade to decide and still is not satisfied. 😌'},
-{q:'Surya is overthinking something. What usually happens?',a:'He makes a quick decision and moves on.',b:'He keeps thinking through every possible option.',fa:'❌ Wrong. Quick decisions are not always his preferred software mode. 😂',fb:'❌ Correctly suspicious. One small decision can become a full internal investigation. 😌'}];
-function startQuiz(){document.getElementById('quizBar').style.width='100%';setTimeout(()=>go(15),800)}
-function loadQuiz(){const q=quiz[quizIndex];document.getElementById('qNum').innerText='QUESTION '+String(quizIndex+1).padStart(2,'0');document.getElementById('qText').innerText=q.q;document.getElementById('qA').innerText='A. '+q.a;document.getElementById('qB').innerText='B. '+q.b;document.querySelectorAll('.qbtn').forEach(b=>{b.disabled=false;b.classList.remove('selected')});document.getElementById('qFeedback').innerHTML='';document.getElementById('nextQuestionBtn').classList.add('hidden');document.getElementById('nextQuestionBtn').dataset.seen='0';}
-function quizAnswer(choice){const q=quiz[quizIndex],btn=document.getElementById(choice===0?'qA':'qB');btn.classList.add('selected');btn.disabled=true;const fb=document.createElement('p');fb.className='yellow quizFeedbackLine';fb.innerHTML=(choice===0?q.fa:q.fb);document.getElementById('qFeedback').appendChild(fb);const a=document.getElementById('qA'),b=document.getElementById('qB');if(a.disabled&&b.disabled){setTimeout(()=>document.getElementById('nextQuestionBtn').classList.remove('hidden'),2400);}}
-function nextQuizQuestion(){quizIndex++;if(quizIndex>=quiz.length){quizIndex=0;go(16)}else loadQuiz()}
-function startDeployment(){if(deployStarted)return;deployStarted=true;setTimeout(()=>document.getElementById('deployBar').style.width='100%',300);setTimeout(()=>document.getElementById('deployBtn').classList.remove('hidden'),1750)}
 
-const visitedFiles=new Set();
-function openFile(n){visitedFiles.add(n);updateFileProgress();go(n)}
-function updateFileProgress(){const el=document.getElementById('fileProgress');const locked=document.getElementById('quizLocked');const back=document.getElementById('dangerBack');if(!el)return;el.textContent='PERSONAL FILES EXPLORED: '+visitedFiles.size+' / 5';if(visitedFiles.size>=5){if(locked)locked.classList.add('hidden');if(back)back.classList.add('hidden');el.innerHTML='<span class="green">ALL PERSONAL FILES EXPLORED ✓</span>'}else{if(locked)locked.classList.remove('hidden');if(back)back.classList.remove('hidden')}}
-function startDeployment(){if(deployStarted)return;deployStarted=true;setTimeout(()=>document.getElementById('deployBar').style.width='100%',300);setTimeout(()=>{document.getElementById('deployBtn').classList.remove('hidden');document.getElementById('surpriseStatus').innerHTML='<span class="green">✓ Surprise reward authorized — SURPRISE.exe UNLOCKED</span>'},1750)}
-function toggleSecret(el){const r=el.querySelector('.reveal');if(!r)return;r.textContent=el.dataset.secret||'Profile inspection complete.';r.classList.toggle('show');el.classList.toggle('selected')}
-function runDiagnostics(el){const r=el.querySelector('.reveal');if(!r||el.dataset.done)return;el.dataset.done='1';r.innerHTML='<span class="green">DIAGNOSTIC COMPLETE ✓</span><br>No additional faults found. Curiosity remains fully operational.';r.classList.add('show');el.classList.add('selected');setTimeout(()=>document.getElementById('calibrationCard').classList.remove('hidden'),450)}
-function inventoryAudit(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"green\">AUDIT PASSED ✓</span><br>5 inventory items checked. 1 surprise still intentionally unavailable.';r.classList.add('show');el.classList.add('selected')}
-function shuffleFiles(el){const box=el.parentElement;const files=[...box.querySelectorAll('.file')];files.sort(()=>Math.random()-.5);files.forEach(f=>box.insertBefore(f,el));const r=el.querySelector('.reveal');if(r){r.textContent='FILE ORDER SCRAMBLED ✓';r.classList.add('show')}el.classList.add('selected');setTimeout(()=>files.forEach(f=>box.insertBefore(f,el)),1800)}
-function memorySweep(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"green\">MEMORY SWEEP COMPLETE ✓</span><br>3 memory slots checked. No memories were harmed.';r.classList.add('show');el.classList.add('selected');document.getElementById('swipeMemory').classList.remove('hidden');document.getElementById('memoryNav').classList.remove('hidden')}
-function releaseCompare(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"blue\">COMPARISON:</span><br>Friendship → engagement → marriage → current build.<br><span class=\"green\">All upgrades retained.</span>';r.classList.add('show');el.classList.add('selected');document.getElementById('releaseNav').classList.remove('hidden')}
-function dangerScan(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"yellow\">SAFETY SCAN:</span><br>Reset: impossible.<br>Single mode: incompatible.<br>Recommendation: leave system exactly as it is. 😌';r.classList.add('show');el.classList.add('selected');const q=document.getElementById('dangerContinue');if(q)q.classList.remove('hidden')}
-function achievementStats(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"green\">4/4 CHECKS PASSED ✓</span><br>Profile · Files · Bugs · Quiz';r.classList.add('show');el.classList.add('selected');const btn=document.getElementById('testContinueBtn');if(btn)btn.classList.remove('hidden')}
-function surpriseInspect(el){const r=el.querySelector('.reveal');if(!r)return;r.innerHTML='<span class=\"green\">PROTOCOL READY ✓</span><br>Final reveal requires the cake interaction first.';r.classList.add('show');el.classList.add('selected')}
-function startSwipe(e){swipeDragging=true;swipeStartX=e.clientX;swipeLastX=e.clientX;e.currentTarget.setPointerCapture?.(e.pointerId)}
-function moveSwipe(e){if(!swipeDragging)return;const wrap=e.currentTarget;const dx=Math.max(0,swipeStartX-e.clientX);const w=wrap.clientWidth;const pct=Math.min(100,(dx/w)*100);const cover=document.getElementById('swipeCover');cover.style.transform='translateX(-'+pct+'%)';if(pct>=92){swipeDragging=false;cover.style.transform='translateX(-100%)';cover.innerHTML='<span class="green">MEMORY ACCESS GRANTED ✓</span>';document.getElementById('swipeMemory').classList.add('selected');document.getElementById('memoryOrder').classList.remove('hidden')}}
-function endSwipe(){swipeDragging=false}
-function dragBug(e){e.dataTransfer.setData('text/plain',e.currentTarget.dataset.bug||'BUG')}
+let noAttempts=0,
+quizIndex=0,
+deployStarted=false,
+searchStarted=false,
+searchRan=false,
+holdTimer=null,
+deepScanDone=false,
+calibrationReady=false,
+memoryOrderIndex=0,
+candleTimer=null,
+flowersOpened=0,
+quarantinedCount=0;
+
+
+/* NAVIGATION */
+
+function go(n){
+
+  document
+    .querySelectorAll('.page')
+    .forEach(p=>p.classList.remove('active'));
+
+  document
+    .getElementById('p'+n)
+    .classList.add('active');
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+  if(n===12){
+
+    const box=document.getElementById(
+      'relationshipFragments'
+    );
+
+    if(box && !box.dataset.shuffled){
+
+      const pieces=[...box.children];
+
+      pieces.sort(
+        ()=>Math.random()-.5
+      );
+
+      pieces.forEach(
+        x=>box.appendChild(x)
+      );
+
+      box.dataset.shuffled='1';
+    }
+  }
+
+  if(n===15){
+    loadQuiz();
+  }
+
+  if(n===18){
+    startDeployment();
+  }
+
+  if(n===20){
+    setTimeout(finalPop,700);
+  }
+}
+
+
+/* POPUP */
+
+function popup(html){
+
+  document
+    .getElementById('popupText')
+    .innerHTML=html;
+
+  document
+    .getElementById('popup')
+    .classList.remove('hidden');
+}
+
+function closePopup(){
+
+  document
+    .getElementById('popup')
+    .classList.add('hidden');
+}
+
+
+/* SEARCH */
+
+function runRealSearch(){
+
+  const input=document.getElementById(
+    'suryaSearch'
+  );
+
+  const hint=document.getElementById(
+    'searchHint'
+  );
+
+  if(!input)return;
+
+  if(
+    input.value.trim().toUpperCase()
+    !=='SURYA'
+  ){
+
+    hint.innerHTML=
+      '<span class="red">USER NOT FOUND.</span> Enter a valid name.';
+
+    input.focus();
+
+    input.classList.add('shake');
+
+    setTimeout(
+      ()=>input.classList.remove('shake'),
+      400
+    );
+
+    return;
+  }
+
+  if(searchRan)return;
+
+  searchRan=true;
+
+  hint.innerHTML=
+    '<span class="green">MATCH FOUND — SURYA</span>';
+
+  input.disabled=true;
+
+  document
+    .querySelectorAll('#searchLines .line')
+    .forEach(x=>x.classList.add('hidden'));
+
+  const ids=[
+    's1',
+    's2',
+    's3',
+    's4'
+  ];
+
+  ids.forEach(
+    (id,i)=>
+      setTimeout(
+        ()=>document.getElementById(id).classList.remove('hidden'),
+        350+i*650
+      )
+  );
+
+  setTimeout(
+    ()=>birthdayConflict(),
+    3100
+  );
+}
+
+
+function birthdayConflict(){
+
+  popup(`
+    <div class="popupTitle red">
+      ⚠ BIRTHDAY CONFLICT
+    </div>
+
+    <br>
+
+    <div class="popupLarge">
+      A birthday conflict was found in the records.
+      <br><br>
+      One entry appears to be incorrect. 😂
+    </div>
+
+    <br>
+
+    <button
+      onclick="closePopup();go(2)">
+      REVIEW CONFLICT →
+    </button>
+  `);
+}
+
+
+/* SECURITY QUESTION */
+
+function securityYes(){
+
+  const y=document.getElementById(
+    'yesLever'
+  );
+
+  const n=document.getElementById(
+    'noLever'
+  );
+
+  const cat=document.getElementById(
+    'securityCat'
+  );
+
+  y.classList.add('pulled');
+
+  n.disabled=true;
+  n.classList.add('locked');
+
+  cat.textContent='🐱';
+
+  cat.classList.remove('angry');
+
+  cat.classList.add(
+    'show',
+    'shy'
+  );
+
+  document.getElementById(
+    'attemptText'
+  ).innerHTML=
+    '<span class="green">YES SELECTED ✓</span>';
+
+  document.getElementById(
+    'securityMsg'
+  ).innerHTML=`
+    <p>
+      <span class="green">
+        You may be short...
+      </span>
+      <br>
+      but I see you up there,
+      above the world,
+      more than anything. ❤️
+    </p>
+
+    <p class="green">
+      ✓ ANSWER ACCEPTED
+    </p>
+  `;
+
+  setTimeout(
+    ()=>go(5),
+    10000
+  );
+}
+
+
+function securityNo(){
+
+  noAttempts++;
+
+  const n=document.getElementById(
+    'noLever'
+  );
+
+  const y=document.getElementById(
+    'yesLever'
+  );
+
+  const cat=document.getElementById(
+    'securityCat'
+  );
+
+  n.classList.add('pulled');
+
+  cat.classList.remove(
+    'show',
+    'shy',
+    'angry'
+  );
+
+  void cat.offsetWidth;
+
+  cat.textContent=
+    noAttempts===1
+      ? '🐱'
+      : '😾';
+
+  cat.classList.add(
+    'show',
+    'angry'
+  );
+
+  setTimeout(
+    ()=>{
+      n.classList.remove('pulled');
+      cat.classList.remove(
+        'show',
+        'angry'
+      );
+    },
+    900
+  );
+
+  document.getElementById(
+    'attemptText'
+  ).innerHTML=
+    '<span class="yellow">NO ATTEMPT '
+    +noAttempts+
+    ' / 3</span>';
+
+  const messages=[
+
+    `
+    <span class="yellow">
+      NO? REALLY? 🐱
+    </span>
+    <br><br>
+    Varshi is short.
+    <br>
+    You are only two inches taller than her.
+    <br><br>
+    If she belongs in the short category for me...
+    <br>
+    <strong>you do too. 😂</strong>
+    `,
+
+    `
+    <span class="yellow">
+      THE CAT DISAGREES. 😾
+    </span>
+    <br><br>
+    Two inches is a very small escape route.
+    <br><br>
+    The short-category door is still closed. 😂
+    `,
+
+    `
+    <span class="red">
+      ENOUGH. 😾
+    </span>
+    <br><br>
+    The cat has finished the height calculation.
+    <br><br>
+    <strong>
+      TRY YES, SHORTY. 😂
+    </strong>
+    `
+  ];
+
+  document.getElementById(
+    'securityMsg'
+  ).innerHTML=
+    '<p>'+
+    messages[
+      Math.min(
+        noAttempts-1,
+        2
+      )
+    ]+
+    '</p>';
+
+  if(noAttempts>=3){
+
+    n.disabled=true;
+
+    n.classList.add('locked');
+
+    y.classList.add('ready');
+
+    document.getElementById(
+      'attemptText'
+    ).innerHTML=
+      '<span class="yellow">NO LOCKED — CAT HAS SPOKEN.</span>';
+  }
+}
+
+
+/* BIRTHDAY COMMAND */
+
+function runBirthdayCommand(){
+
+  const i=document.getElementById(
+    'birthdayCommand'
+  );
+
+  const r=document.getElementById(
+    'birthdayCommandResult'
+  );
+
+  const b=document.getElementById(
+    'birthdayContinue'
+  );
+
+  if(!i || !r)return;
+
+  if(
+    i.value.trim()
+    ==='./birthday --run'
+  ){
+
+    i.disabled=true;
+
+    r.innerHTML='';
+
+    b.classList.add('hidden');
+
+    const lines=[
+
+      '<span class="green">COMMAND ACCEPTED ✓</span>',
+
+      'INITIALIZING BIRTHDAY MODE...',
+
+      '<span class="blue">████████████████████ 100%</span>',
+
+      '<br><span class="green">Birthday mode has already begun. 🎂</span>'
+    ];
+
+    lines.forEach(
+      (line,idx)=>
+        setTimeout(
+          ()=>{
+            r.innerHTML+=
+              line+
+              (
+                idx<lines.length-1
+                  ? '<br>'
+                  : ''
+              );
+
+            if(
+              idx===lines.length-1
+            ){
+              b.classList.remove(
+                'hidden'
+              );
+            }
+
+          },
+          idx*900
+        )
+    );
+
+  }else{
+
+    r.innerHTML=
+      '<span class="red">COMMAND NOT RECOGNIZED.</span><br>Use: ./birthday --run';
+  }
+}
+
+
+/* PROFILE */
+
+function inspectProfile(el){
+
+  const r=document.getElementById(
+    'profileInspect'
+  );
+
+  r.classList.add('show');
+
+  r.innerHTML=
+    '<span class="green">PROFILE LOADED ✓</span><br>Original birthday profile loaded. No factory reset available.';
+
+  el.classList.add('selected');
+
+  document
+    .getElementById('systemScanBtn')
+    .classList.remove('hidden');
+}
+
+
+function profilePageTap(e){
+
+  if(e.target.closest('button'))
+    return;
+
+  document
+    .getElementById('systemScanBtn')
+    .classList.remove('hidden');
+
+  const r=document.getElementById(
+    'profileInspect'
+  );
+
+  r.classList.add('show');
+
+  r.innerHTML=
+    '<span class="green">PROFILE READY ✓</span><br>Profile acknowledged. System scan is now available.';
+}
+
+
+function toggleSecret(el){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(!r)return;
+
+  r.textContent=
+    el.dataset.secret
+    ||
+    'Profile inspection complete.';
+
+  r.classList.toggle('show');
+
+  el.classList.toggle(
+    'selected'
+  );
+}
+
+
+/* SYSTEM SCAN */
+
+function scanDetail(el,text){
+
+  let r=el.querySelector(
+    '.scan-note'
+  );
+
+  if(!r){
+
+    r=document.createElement('div');
+
+    r.className=
+      'micro green scan-note';
+
+    el.appendChild(r);
+  }
+
+  r.textContent=text;
+
+  r.classList.add('show');
+
+  el.classList.add('selected');
+}
+
+
+function runDeepScan(el){
+
+  if(deepScanDone)return;
+
+  deepScanDone=true;
+
+  const r=document.getElementById(
+    'deepScanResult'
+  );
+
+  r.classList.add('show');
+
+  r.innerHTML=`
+    <br>
+    <span class="yellow">
+      ANOMALY FOUND:
+    </span>
+    random interests are generating at an unpredictable rate.
+    <br><br>
+    <span class="green">
+      DEEP SCAN COMPLETE ✓
+    </span>
+  `;
+
+  el.classList.add('selected');
+
+  document
+    .getElementById('diagnosticCard')
+    .classList.remove('hidden');
+}
+
+
+function runDiagnostics(el){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(!r || el.dataset.done)
+    return;
+
+  el.dataset.done='1';
+
+  r.innerHTML=`
+    <span class="green">
+      DIAGNOSTIC COMPLETE ✓
+    </span>
+    <br>
+    No additional faults found.
+    Curiosity remains fully operational.
+  `;
+
+  r.classList.add('show');
+
+  el.classList.add('selected');
+
+  setTimeout(
+    ()=>document
+      .getElementById('calibrationCard')
+      .classList.remove('hidden'),
+    450
+  );
+}
+
+
+/* BIRTHDAY MODE */
+
+function calibrateSystem(e){
+
+  const v=Number(
+    e.target.value
+  );
+
+  const r=document.getElementById(
+    'calibrationResult'
+  );
+
+  const ready=document.getElementById(
+    'chaosReady'
+  );
+
+  r.textContent=
+    'CHAOS LEVEL: '+v+'%';
+
+  if(
+    v>=100 &&
+    !calibrationReady
+  ){
+
+    calibrationReady=true;
+
+    ready.innerHTML=`
+      <span class="green">
+        CHAOS LEVEL: 100% ✓
+      </span>
+      <br><br>
+      <strong>
+        Birthday settings accepted.
+      </strong>
+      <br>
+      System is now prepared for unreasonable amounts of cake,
+      teasing and affection. 😂
+    `;
+
+    ready.classList.add(
+      'show'
+    );
+
+    setTimeout(
+      ()=>document
+        .getElementById('inventoryNext')
+        .classList.remove('hidden'),
+      600
+    );
+  }
+}
+
+
+/* INVENTORY */
+
+function inventoryTap(el,text){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(r){
+
+    let t=text;
+
+    if(
+      t.includes(
+        'STATUS: ALREADY CUT'
+      )
+    ){
+
+      t=t.replace(
+        'STATUS: ALREADY CUT ✓',
+        '<span class="green">STATUS: ALREADY CUT ✓</span>'
+      );
+    }
+
+    if(
+      t.includes(
+        'STATUS: HIDDEN — PENDING AUTHORIZATION'
+      )
+    ){
+
+      t=t.replace(
+        'STATUS: HIDDEN — PENDING AUTHORIZATION',
+        '<span class="yellow">STATUS: HIDDEN — PENDING AUTHORIZATION</span>'
+      );
+    }
+
+    r.innerHTML=t;
+
+    r.classList.add(
+      'show'
+    );
+  }
+
+  el.classList.add(
+    'selected'
+  );
+
+  const items=document.querySelectorAll(
+    '#p7 .card.interactive'
+  );
+
+  const checked=[
+    ...items
+  ].filter(
+    x=>x.classList.contains(
+      'selected'
+    )
+  ).length;
+
+  if(checked===5){
+
+    document
+      .getElementById(
+        'inventoryNextBtn'
+      )
+      .classList.remove(
+        'hidden'
+      );
+  }
+}
+
+
+/* RELATIONSHIP RELEASES */
+
+function relationshipTap(el){
+
+  const n=Number(
+    el.dataset.order
+  );
+
+  const r=document.getElementById(
+    'relationshipResult'
+  );
+
+  if(
+    n!==memoryOrderIndex+1
+  ){
+
+    r.innerHTML=`
+      <span class="yellow">
+        ORDER RESET.
+      </span>
+      <br>
+      Start again from the beginning.
+    `;
+
+    document
+      .querySelectorAll(
+        '#relationshipFragments .memoryPiece'
+      )
+      .forEach(
+        x=>x.classList.remove(
+          'done'
+        )
+      );
+
+    memoryOrderIndex=0;
+
+    return;
+  }
+
+  el.classList.add(
+    'done'
+  );
+
+  memoryOrderIndex++;
+
+  r.innerHTML=
+    '<span class="green">RELEASE '+
+    String(memoryOrderIndex).padStart(2,'0')+
+    ' CONNECTED ✓</span>';
+
+  if(
+    memoryOrderIndex===6
+  ){
+
+    r.innerHTML=`
+      <span class="green">
+        RELEASE TIMELINE RESTORED ✓
+      </span>
+      <br>
+      Strangers → Best Friends → Boyfriend → Fiancé → Husband → My Everything ❤️
+      <br><br>
+      <span class="green">
+        Everything upgraded. Everything retained.
+      </span>
+    `;
+
+    memoryOrderIndex=0;
+
+    document
+      .getElementById('releaseNav')
+      .classList.remove('hidden');
+  }
+}
+
+
+/* COMMIT FILE */
+
+function commitTap(el){
+
+  el.classList.add(
+    'selected'
+  );
+
+  el.dataset.note='opened';
+}
+
+
+/* RELEASE FILE */
+
+function releaseTap(el,text){
+
+  if(el.dataset.opened)
+    return;
+
+  el.dataset.opened='1';
+
+  el.classList.add(
+    'selected'
+  );
+
+  const note=
+    document.createElement(
+      'div'
+    );
+
+  note.className=
+    'micro green';
+
+  note.textContent=text;
+
+  el.appendChild(note);
+}
+
+
+/* DANGER ZONE */
+
+function danger(type){
+
+  const r=document.getElementById(
+    type==='reset'
+      ? 'resetResult'
+      : 'singleResult'
+  );
+
+  r.classList.remove(
+    'hidden'
+  );
+
+  r.innerHTML=
+    type==='reset'
+      ?
+      `
+      <span class="red">
+        RESET FAILED 🚫
+      </span>
+      <br><br>
+      Too many updates have been installed.
+      <br>
+      Current personality cannot be restored to factory settings.
+      `
+      :
+      `
+      <span class="red">
+        ACCESS DENIED 🚫
+      </span>
+      <br><br>
+      Single Mode is incompatible with current system configuration.
+      <br><br>
+      Reason: SURYA.EXE has already been permanently assigned to a very specific user. 😌
+      `;
+}
+
+
+function dangerScan(el){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(!r)return;
+
+  r.innerHTML=`
+    <span class="yellow">
+      SAFETY SCAN:
+    </span>
+    <br>
+    Reset: impossible.
+    <br>
+    Single mode: incompatible.
+    <br>
+    Recommendation:
+    leave system exactly as it is. 😌
+  `;
+
+  r.classList.add(
+    'show'
+  );
+
+  el.classList.add(
+    'selected'
+  );
+
+  const q=document.getElementById(
+    'dangerContinue'
+  );
+
+  if(q)
+    q.classList.remove(
+      'hidden'
+    );
+}
+
+
+/* QUIZ */
+
+const quiz=[
+
+{
+  q:'Surya says: "I will wake up early tomorrow and go to the park." What happens?',
+  a:'He wakes up early and exercises.',
+  b:'He sleeps and wakes up with Varshi.',
+  fa:'❌ Wrong. That is the PLAN, not the execution. 😂',
+  fb:'❌ Also wrong. That is not just waking up — that is the ACTUAL system default. 😂'
+},
+
+{
+  q:'Surya is craving tasty food. What does he do?',
+  a:'Orders something immediately.',
+  b:'Cooks something amazing.',
+  fa:'❌ Wrong. He overthinks what to order so much that sometimes he ends up not ordering at all. 😂',
+  fb:'❌ Also wrong. Because somehow he ends up cooking the exact food he was craving — and the whole process becomes a big production. ❤️'
+},
+
+{
+  q:'Surya discovers something interesting, like camping, perfumes, flights, or the world. What happens next?',
+  a:'He casually looks into it and moves on.',
+  b:'He turns it into a full investigation.',
+  fa:'❌ Wrong. Casual research is rarely the final destination. 😂',
+  fb:'❌ Wrong. That is much closer to the actual operating system. 😌'
+},
+
+{
+  q:'Surya is deciding which perfume to buy. How long will this take?',
+  a:'Five minutes.',
+  b:'One day.',
+  fa:'❌ Wrong. Five minutes is not enough time for this level of investigation. 😂',
+  fb:'❌ Wrong. One day is still wildly optimistic — he takes half a decade to decide and still is not satisfied. 😌'
+},
+
+{
+  q:'Surya is overthinking something. What usually happens?',
+  a:'He makes a quick decision and moves on.',
+  b:'He keeps thinking through every possible option.',
+  fa:'❌ Wrong. Quick decisions are not always his preferred software mode. 😂',
+  fb:'❌ Correctly suspicious. One small decision can become a full internal investigation. 😌'
+}
+
+];
+
+
+function startQuiz(){
+
+  document
+    .getElementById('quizBar')
+    .style.width='100%';
+
+  setTimeout(
+    ()=>go(15),
+    800
+  );
+}
+
+
+function loadQuiz(){
+
+  const q=quiz[quizIndex];
+
+  document.getElementById(
+    'qNum'
+  ).innerText=
+    'QUESTION '+
+    String(
+      quizIndex+1
+    ).padStart(2,'0');
+
+  document.getElementById(
+    'qText'
+  ).innerText=q.q;
+
+  document.getElementById(
+    'qA'
+  ).innerText=
+    'A. '+q.a;
+
+  document.getElementById(
+    'qB'
+  ).innerText=
+    'B. '+q.b;
+
+  document
+    .querySelectorAll('.qbtn')
+    .forEach(
+      b=>{
+        b.disabled=false;
+        b.classList.remove(
+          'selected'
+        );
+      }
+    );
+
+  document.getElementById(
+    'qFeedback'
+  ).innerHTML='';
+
+  document.getElementById(
+    'nextQuestionBtn'
+  ).classList.add(
+    'hidden'
+  );
+}
+
+
+function quizAnswer(choice){
+
+  const q=quiz[quizIndex];
+
+  const btn=document.getElementById(
+    choice===0
+      ? 'qA'
+      : 'qB'
+  );
+
+  btn.classList.add(
+    'selected'
+  );
+
+  btn.disabled=true;
+
+  const fb=document.createElement(
+    'p'
+  );
+
+  fb.className=
+    'yellow quizFeedbackLine';
+
+  fb.innerHTML=
+    choice===0
+      ? q.fa
+      : q.fb;
+
+  document
+    .getElementById('qFeedback')
+    .appendChild(fb);
+
+  const a=document.getElementById(
+    'qA'
+  );
+
+  const b=document.getElementById(
+    'qB'
+  );
+
+  if(
+    a.disabled &&
+    b.disabled
+  ){
+
+    setTimeout(
+      ()=>document
+        .getElementById(
+          'nextQuestionBtn'
+        )
+        .classList.remove(
+          'hidden'
+        ),
+      2400
+    );
+  }
+}
+
+
+function nextQuizQuestion(){
+
+  quizIndex++;
+
+  if(
+    quizIndex>=quiz.length
+  ){
+
+    quizIndex=0;
+
+    go(16);
+
+  }else{
+
+    loadQuiz();
+  }
+}
+
+
+/* QUIZ STATS */
+
+function achievementStats(el){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(!r)return;
+
+  r.innerHTML=`
+    <span class="green">
+      4/4 CHECKS PASSED ✓
+    </span>
+    <br>
+    Profile · Files · Bugs · Quiz
+  `;
+
+  r.classList.add(
+    'show'
+  );
+
+  el.classList.add(
+    'selected'
+  );
+
+  const btn=document.getElementById(
+    'testContinueBtn'
+  );
+
+  if(btn)
+    btn.classList.remove(
+      'hidden'
+    );
+}
+
+
+/* ACHIEVEMENT CERTIFICATE */
+
+function openAchievementCertificate(){
+
+  const html=`
+
+    <div style="text-align:center">
+
+      <div class="small">
+        SURYA.EXE // ACHIEVEMENT CERTIFICATE
+      </div>
+
+      <h2>
+        🏆 CERTIFIED BIRTHDAY BOY
+      </h2>
+
+      <div
+        class="card"
+        style="text-align:left">
+
+        <div class="stat">
+          <span>NAME</span>
+          <span class="blue">SURYA</span>
+        </div>
+
+        <div class="stat">
+          <span>COURSE</span>
+          <span class="blue">
+            SURYA.EXE PERSONALITY ASSESSMENT
+          </span>
+        </div>
+
+        <div class="stat">
+          <span>MARKS</span>
+          <span class="green">
+            5 / 5
+          </span>
+        </div>
+
+        <div class="stat">
+          <span>GRADE</span>
+          <span class="green">
+            EXCEPTIONAL
+          </span>
+        </div>
+
+        <div class="stat">
+          <span>STATUS</span>
+          <span class="green">
+            ACHIEVEMENT UNLOCKED ✓
+          </span>
+        </div>
+
+      </div>
+
+      <p>
+        Issued to one very specific human
+        who successfully survived his own birthday system. ❤️
+      </p>
+
+      <button
+        onclick="closePopup();document.getElementById('certificateContinue').classList.remove('hidden')">
+        CLOSE CERTIFICATE →
+      </button>
+
+    </div>
+  `;
+
+  popup(html);
+}
+
+
+function rewardInspect(el){
+
+  el.classList.add(
+    'selected'
+  );
+
+  let n=
+    el.querySelector('.micro');
+
+  if(!n){
+
+    n=document.createElement(
+      'div'
+    );
+
+    n.className=
+      'micro yellow';
+
+    el.appendChild(n);
+  }
+
+  n.textContent=
+    'Reward is still waiting for manual authorization.';
+}
+
+
+/* DEPLOYMENT */
+
+function startDeployment(){
+
+  if(deployStarted)
+    return;
+
+  deployStarted=true;
+
+  setTimeout(
+    ()=>{
+      document
+        .getElementById(
+          'deployBar'
+        )
+        .style.width='100%';
+    },
+    300
+  );
+
+  setTimeout(
+    ()=>{
+      document
+        .getElementById(
+          'deployBtn'
+        )
+        .classList.remove(
+          'hidden'
+        );
+
+      document
+        .getElementById(
+          'surpriseStatus'
+        )
+        .innerHTML=
+          '<span class="green">✓ Surprise reward authorized — SURPRISE.exe UNLOCKED</span>';
+
+    },
+    1750
+  );
+}
+
+
+function startHold(e){
+
+  e.preventDefault();
+
+  if(holdTimer)
+    return;
+
+  const b=document.getElementById(
+    'deployBtn'
+  );
+
+  const fill=b.querySelector(
+    '.holdFill'
+  );
+
+  let start=Date.now();
+
+  fill.style.width='0';
+
+  holdTimer=setInterval(
+    ()=>{
+
+      let pct=Math.min(
+        100,
+        (
+          (Date.now()-start)
+          /1600
+        )*100
+      );
+
+      fill.style.width=
+        pct+'%';
+
+      if(pct>=100){
+
+        clearInterval(
+          holdTimer
+        );
+
+        holdTimer=null;
+
+        b.onmousedown=null;
+        b.onmouseup=null;
+        b.onmouseleave=null;
+        b.ontouchstart=null;
+        b.ontouchend=null;
+
+        go(19);
+      }
+
+    },
+    30
+  );
+}
+
+
+function cancelHold(){
+
+  if(!holdTimer)
+    return;
+
+  clearInterval(
+    holdTimer
+  );
+
+  holdTimer=null;
+
+  const b=document.getElementById(
+    'deployBtn'
+  );
+
+  const fill=b.querySelector(
+    '.holdFill'
+  );
+
+  fill.style.width='0';
+}
+
+
+/* CAKE */
+
+function cutDigitalCake(el){
+
+  el.classList.add(
+    'selected'
+  );
+
+  el.innerHTML=`
+    <div class="cake">
+      🍰
+    </div>
+
+    <div class="micro green">
+      CAKE CUT SUCCESSFULLY ✓
+    </div>
+  `;
+
+  burstPapers();
+
+  setTimeout(
+    ()=>{
+      document
+        .getElementById(
+          'candleStage'
+        )
+        .style.display='block';
+
+      document
+        .getElementById(
+          'cakeStage'
+        )
+        .style.opacity='.45';
+
+      document
+        .getElementById(
+          'cakeStage'
+        )
+        .style.pointerEvents='none';
+
+    },
+    900
+  );
+}
+
+
+/* CANDLE */
+
+function startCandle(e){
+
+  e.preventDefault();
+
+  if(candleTimer)
+    return;
+
+  const candle=document.getElementById(
+    'candle'
+  );
+
+  const result=document.getElementById(
+    'candleResult'
+  );
+
+  let start=Date.now();
+
+  candle.classList.add(
+    'selected'
+  );
+
+  candleTimer=setInterval(
+    ()=>{
+
+      const pct=Math.min(
+        100,
+        (
+          (Date.now()-start)
+          /1800
+        )*100
+      );
+
+      result.innerHTML=
+        '<span class="blue">BLOW POWER: '+
+        Math.round(pct)+
+        '%</span>';
+
+      if(pct>=100){
+
+        clearInterval(
+          candleTimer
+        );
+
+        candleTimer=null;
+
+        candle.classList.add(
+          'off'
+        );
+
+        result.innerHTML=`
+          <span class="green">
+            CANDLE BLOWN OUT ✓
+          </span>
+          <br>
+          WISH PROTOCOL ACCEPTED.
+        `;
+
+        darkCandleTransition();
+      }
+
+    },
+    30
+  );
+}
+
+
+function cancelCandle(){
+
+  if(!candleTimer)
+    return;
+
+  clearInterval(
+    candleTimer
+  );
+
+  candleTimer=null;
+
+  document.getElementById(
+    'candleResult'
+  ).innerHTML=
+    '<span class="yellow">Keep holding...</span>';
+}
+
+
+function darkCandleTransition(){
+
+  let layer=document.getElementById(
+    'darkTransition'
+  );
+
+  if(!layer){
+
+    layer=document.createElement(
+      'div'
+    );
+
+    layer.id=
+      'darkTransition';
+
+    layer.className=
+      'darkTransition';
+
+    layer.innerHTML=`
+      <div
+        class="darkText"
+        id="darkText">
+
+        &gt; candle.signal lost
+        <br>
+        &gt; darkness protocol engaged...
+        <br>
+        &gt; ...
+        <br><br>
+
+        <span class="green">
+          &gt; it's dark... smile. 🙂
+          <br>
+          &gt; the system is not done yet. 💙
+        </span>
+
+      </div>
+    `;
+
+    document.body.appendChild(
+      layer
+    );
+  }
+
+  layer.classList.add(
+    'show'
+  );
+
+  setTimeout(
+    ()=>{
+      document
+        .getElementById(
+          'darkText'
+        )
+        .classList.add(
+          'show'
+        );
+    },
+    900
+  );
+
+  setTimeout(
+    ()=>{
+
+      layer.classList.remove(
+        'show'
+      );
+
+      document
+        .getElementById(
+          'darkText'
+        )
+        .classList.remove(
+          'show'
+        );
+
+      document
+        .getElementById(
+          'bouquetStage'
+        )
+        .style.display='block';
+
+      document
+        .getElementById(
+          'candleStage'
+        )
+        .style.display='none';
+
+    },
+    10000
+  );
+}
+
+
+/* BOUQUET */
+
+function openFlower(el){
+
+  if(
+    el.classList.contains(
+      'open'
+    )
+  )
+    return;
+
+  el.classList.add(
+    'open'
+  );
+
+  flowersOpened++;
+
+  const notes=[
+
+    'You care in a way that makes people feel safe.',
+
+    'Somehow precious even during software updates.',
+
+    'Food is apparently a serious field of research.',
+
+    'One random topic can become a full investigation.',
+
+    'You somehow turn cooking into another way of caring.',
+
+    'This one does not need a system explanation. ❤️'
+
+  ];
+
+  el.querySelector(
+    'span'
+  ).textContent=
+    notes[
+      flowersOpened-1
+    ];
+
+  if(
+    flowersOpened===6
+  ){
+
+    document
+      .getElementById(
+        'bouquetResult'
+      )
+      .innerHTML=`
+        <span class="green">
+          BOUQUET COMPLETE ✓
+        </span>
+        <br>
+        Six little pieces of you.
+        One very favourite human.
+      `;
+
+    setTimeout(
+      ()=>{
+        document
+          .getElementById(
+            'surpriseEnd'
+          )
+          .classList.remove(
+            'hidden'
+          );
+      },
+      1800
+    );
+  }
+}
+
+
+/* PATCH */
+
+function attemptPatch(el){
+
+  const r=document.getElementById(
+    'patchResult'
+  );
+
+  const msgs=[
+
+    'Core personality is already in use. ❤️',
+
+    'Patch refused. The cute version is already installed. 😌',
+
+    'Update blocked. There is already too much charm running. 🐱',
+
+    'Repair skipped. System seems happier this way. ❤️'
+
+  ];
+
+  if(
+    quarantinedCount===0
+  ){
+
+    r.innerHTML=`
+      <span class="yellow">
+        PATCH WAITING.
+      </span>
+      <br>
+      Quarantine at least one bug first.
+    `;
+
+    el.classList.add(
+      'selected'
+    );
+
+    return;
+  }
+
+  const count=Number(
+    el.dataset.patches||0
+  );
+
+  el.dataset.patches=
+    count+1;
+
+  r.innerHTML=
+    '<span class="red">PATCH FAILED.</span> '+
+    msgs[
+      count%msgs.length
+    ];
+
+  el.classList.add(
+    'selected'
+  );
+
+  document
+    .getElementById(
+      'noFixResult'
+    )
+    .classList.remove(
+      'hidden'
+    );
+}
+
+
+/* BUG DRAG */
+
+function dragBug(e){
+
+  e.dataTransfer.setData(
+    'text/plain',
+    e.currentTarget.dataset.bug||'BUG'
+  );
+}
+
+
 let bugPointer=null;
-function startBugPointer(e){if(e.pointerType==='mouse'&&e.button!==0)return;const item=e.currentTarget;bugPointer={item,name:item.dataset.bug,startX:e.clientX,startY:e.clientY,ghost:null,inside:false};item.classList.add('dragging');document.addEventListener('pointermove',moveBugPointer);document.addEventListener('pointerup',endBugPointer,{once:true});e.preventDefault()}
-function moveBugPointer(e){if(!bugPointer)return;if(!bugPointer.ghost){const g=bugPointer.item.cloneNode(true);g.classList.add('bugGhost');g.classList.remove('dragging');g.style.width=bugPointer.item.offsetWidth+'px';document.body.appendChild(g);bugPointer.ghost=g}bugPointer.ghost.style.left=(e.clientX-40)+'px';bugPointer.ghost.style.top=(e.clientY-20)+'px';const z=document.getElementById('quarantine'),r=z.getBoundingClientRect(),inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;z.classList.toggle('dropReady',inside);bugPointer.inside=inside}
-function endBugPointer(){if(!bugPointer)return;const {item,name,ghost,inside}=bugPointer;const z=document.getElementById('quarantine'),res=document.getElementById('bugResult');ghost?.remove();item.classList.remove('dragging');z.classList.remove('dropReady');if(inside){z.innerHTML='DROP BUG HERE';quarantinedCount++;res.innerHTML=name==='Random interests appear without warning'?'<span class="green">YES — YOU FOUND YOUR BUG. 🐛</span><br>Quarantine it for now and be peaceful. 😌':'<span class="red">PATCH FAILED.</span> Core personality is already in use. ❤️';item.remove()}bugPointer=null;document.removeEventListener('pointermove',moveBugPointer)}
-function allowBugDrop(e){e.preventDefault();document.getElementById('quarantine').classList.add('dropReady')}
-function dropBug(e){e.preventDefault();const zone=document.getElementById('quarantine'),res=document.getElementById('bugResult'),name=e.dataTransfer.getData('text/plain')||'BUG';zone.classList.remove('dropReady');zone.innerHTML='DROP BUG HERE';quarantinedCount++;res.innerHTML=name==='Random interests appear without warning'?'<span class="green">YES — YOU FOUND YOUR BUG. 🐛</span><br>Quarantine it for now and be peaceful. 😌':'<span class="red">PATCH FAILED.</span> Core personality is already in use. ❤️';[...document.querySelectorAll('.bugItem')].forEach(x=>{if(x.dataset.bug===name)x.remove()})}
-function runBuildCommand(){const i=document.getElementById('buildCommand'),r=document.getElementById('buildCommandResult');if(!i||!r)return;if(i.value.trim()==='./birthday --run'){r.innerHTML='<span class="green">COMMAND ACCEPTED ✓</span><br>Current build loaded successfully. Birthday mode remains active. ❤️';i.disabled=true}else{r.innerHTML='<span class="red">COMMAND NOT RECOGNIZED.</span><br>Try the command shown in the terminal.'}}
-function doNotPressBug(el){const r=el.querySelector('.reveal');if(!r||el.dataset.done)return;el.dataset.done='1';r.innerHTML='<span class="yellow">OOPS. NEW BUG DETECTED. 🐛</span><br><br>The curiosity bug has entered the system.<br><span class="green">BUG REPORT UPDATED ✓</span>';r.classList.add('show');el.classList.add('selected')}
-function doNotPress(el){doNotPressBug(el)}
-function finalPop(){if(window.finalPopped)return;window.finalPopped=true;burstPapers();}
-function burstPapers(){const layer=document.getElementById('papers');for(let i=0;i<58;i++){setTimeout(()=>{const p=document.createElement('span');p.className='paper burst-paper';p.style.left='50%';p.style.top='50%';p.style.setProperty('--dx',(Math.random()*620-310)+'px');p.style.setProperty('--dy',(Math.random()*700-350)+'px');p.style.transform='rotate('+Math.random()*360+'deg)';p.style.animation='paperBurst 3.8s cubic-bezier(.16,.75,.3,1) forwards';layer.appendChild(p);setTimeout(()=>p.remove(),4000)},i*35)}}
-const cal=document.getElementById('calibration');if(cal)cal.addEventListener('input',calibrateSystem);
-for(let i=0;i<22;i++){const p=document.createElement('span');p.className='paper';p.style.left=Math.random()*100+'%';p.style.animationDuration=(7+Math.random()*8)+'s';p.style.animationDelay=(-Math.random()*10)+'s';document.getElementById('papers').appendChild(p)}
+
+
+function startBugPointer(e){
+
+  if(
+    e.pointerType==='mouse' &&
+    e.button!==0
+  )
+    return;
+
+  const item=e.currentTarget;
+
+  bugPointer={
+    item,
+    name:item.dataset.bug,
+    startX:e.clientX,
+    startY:e.clientY,
+    ghost:null,
+    inside:false
+  };
+
+  item.classList.add(
+    'dragging'
+  );
+
+  document.addEventListener(
+    'pointermove',
+    moveBugPointer
+  );
+
+  document.addEventListener(
+    'pointerup',
+    endBugPointer,
+    {once:true}
+  );
+
+  e.preventDefault();
+}
+
+
+function moveBugPointer(e){
+
+  if(!bugPointer)
+    return;
+
+  if(!bugPointer.ghost){
+
+    const g=
+      bugPointer.item.cloneNode(
+        true
+      );
+
+    g.classList.add(
+      'bugGhost'
+    );
+
+    g.classList.remove(
+      'dragging'
+    );
+
+    g.style.width=
+      bugPointer.item.offsetWidth+
+      'px';
+
+    document.body.appendChild(
+      g
+    );
+
+    bugPointer.ghost=g;
+  }
+
+  bugPointer.ghost.style.left=
+    (e.clientX-40)+'px';
+
+  bugPointer.ghost.style.top=
+    (e.clientY-20)+'px';
+
+  const z=document.getElementById(
+    'quarantine'
+  );
+
+  const r=z.getBoundingClientRect();
+
+  const inside=
+    e.clientX>=r.left &&
+    e.clientX<=r.right &&
+    e.clientY>=r.top &&
+    e.clientY<=r.bottom;
+
+  z.classList.toggle(
+    'dropReady',
+    inside
+  );
+
+  bugPointer.inside=inside;
+}
+
+
+function endBugPointer(){
+
+  if(!bugPointer)
+    return;
+
+  const {
+    item,
+    name,
+    ghost,
+    inside
+  }=bugPointer;
+
+  const z=document.getElementById(
+    'quarantine'
+  );
+
+  const res=document.getElementById(
+    'bugResult'
+  );
+
+  ghost?.remove();
+
+  item.classList.remove(
+    'dragging'
+  );
+
+  z.classList.remove(
+    'dropReady'
+  );
+
+  if(inside){
+
+    z.innerHTML=
+      'DROP BUG HERE';
+
+    quarantinedCount++;
+
+    res.innerHTML=
+      name===
+      'Random interests appear without warning'
+
+        ?
+
+        `
+        <span class="green">
+          YES — YOU FOUND YOUR BUG. 🐛
+        </span>
+        <br>
+        Quarantine it for now and be peaceful. 😌
+        `
+
+        :
+
+        `
+        <span class="red">
+          PATCH FAILED.
+        </span>
+        Core personality is already in use. ❤️
+        `;
+
+    item.remove();
+  }
+
+  bugPointer=null;
+
+  document.removeEventListener(
+    'pointermove',
+    moveBugPointer
+  );
+}
+
+
+function allowBugDrop(e){
+
+  e.preventDefault();
+
+  document
+    .getElementById(
+      'quarantine'
+    )
+    .classList.add(
+      'dropReady'
+    );
+}
+
+
+function dropBug(e){
+
+  e.preventDefault();
+
+  const zone=document.getElementById(
+    'quarantine'
+  );
+
+  const res=document.getElementById(
+    'bugResult'
+  );
+
+  const name=
+    e.dataTransfer.getData(
+      'text/plain'
+    )||'BUG';
+
+  zone.classList.remove(
+    'dropReady'
+  );
+
+  zone.innerHTML=
+    'DROP BUG HERE';
+
+  quarantinedCount++;
+
+  res.innerHTML=
+    name===
+    'Random interests appear without warning'
+
+      ?
+
+      `
+      <span class="green">
+        YES — YOU FOUND YOUR BUG. 🐛
+      </span>
+      <br>
+      Quarantine it for now and be peaceful. 😌
+      `
+
+      :
+
+      `
+      <span class="red">
+        PATCH FAILED.
+      </span>
+      Core personality is already in use. ❤️
+      `;
+
+  [
+    ...document.querySelectorAll(
+      '.bugItem'
+    )
+  ].forEach(
+    x=>{
+      if(
+        x.dataset.bug===name
+      )
+        x.remove();
+    }
+  );
+}
+
+
+/* DO NOT PRESS */
+
+function doNotPressBug(el){
+
+  const r=el.querySelector(
+    '.reveal'
+  );
+
+  if(
+    !r ||
+    el.dataset.done
+  )
+    return;
+
+  el.dataset.done='1';
+
+  r.innerHTML=`
+    <span class="yellow">
+      OOPS. NEW BUG DETECTED. 🐛
+    </span>
+    <br><br>
+    The curiosity bug has entered the system.
+    <br>
+    <span class="green">
+      BUG REPORT UPDATED ✓
+    </span>
+  `;
+
+  r.classList.add(
+    'show'
+  );
+
+  el.classList.add(
+    'selected'
+  );
+}
+
+
+/* FINAL PAPER POPPER */
+
+function finalPop(){
+
+  if(window.finalPopped)
+    return;
+
+  window.finalPopped=true;
+
+  burstPapers();
+}
+
+
+function burstPapers(){
+
+  const layer=document.getElementById(
+    'papers'
+  );
+
+  for(
+    let i=0;
+    i<58;
+    i++
+  ){
+
+    setTimeout(
+      ()=>{
+
+        const p=
+          document.createElement(
+            'span'
+          );
+
+        p.className=
+          'paper burst-paper';
+
+        p.style.left='50%';
+
+        p.style.top='50%';
+
+        p.style.setProperty(
+          '--dx',
+          (Math.random()*620-310)+'px'
+        );
+
+        p.style.setProperty(
+          '--dy',
+          (Math.random()*700-350)+'px'
+        );
+
+        p.style.transform=
+          'rotate('+
+          Math.random()*360+
+          'deg)';
+
+        p.style.animation=
+          'paperBurst 3.8s cubic-bezier(.16,.75,.3,1) forwards';
+
+        layer.appendChild(p);
+
+        setTimeout(
+          ()=>p.remove(),
+          4000
+        );
+
+      },
+      i*35
+    );
+  }
+}
+
+
+/* INITIALIZE */
+
+const cal=
+  document.getElementById(
+    'calibration'
+  );
+
+if(cal)
+  cal.addEventListener(
+    'input',
+    calibrateSystem
+  );
+
+
+for(
+  let i=0;
+  i<22;
+  i++
+){
+
+  const p=
+    document.createElement(
+      'span'
+    );
+
+  p.className=
+    'paper';
+
+  p.style.left=
+    Math.random()*100+
+    '%';
+
+  p.style.animationDuration=
+    (7+Math.random()*8)+
+    's';
+
+  p.style.animationDelay=
+    (-Math.random()*10)+
+    's';
+
+  document
+    .getElementById(
+      'papers'
+    )
+    .appendChild(p);
+}
+
 </script>
-</body></html>
+
+</body>
+</html>
